@@ -1,14 +1,18 @@
 import { useContext } from "react";
-import { WeatherContext } from "../context/WeatherContext";
+import { useNavigate } from "react-router-dom";
 
 import { PiThermometerSimpleBold } from "react-icons/pi";
 import { FaWind } from "react-icons/fa";
 import { IoSettings, IoWaterSharp } from "react-icons/io5";
 
 import BottomNavBar from "../components/BottomNavBar";
+import { WeatherContext } from "../context/WeatherContext";
+import { GrPrevious } from "react-icons/gr";
 
 function Dashboard() {
   const { data } = useContext(WeatherContext);
+
+  const navigate = useNavigate();
 
   if (!data) return <p>Data not available</p>;
 
@@ -21,8 +25,15 @@ function Dashboard() {
   return (
     <section>
       <div className="flex-center mb-20 w-full flex-col p-10">
+        <button
+          className="flex cursor-pointer self-start text-2xl"
+          onClick={() => navigate("/search")}
+          aria-label="Go back"
+        >
+          <GrPrevious />
+        </button>
         <div className="flex-center flex-col">
-          <h1 className="text-3xl font-bold">{current.name}</h1>
+          <h1 className="-mt-7 mb-2 text-3xl font-bold">{current.name}</h1>
           <p>Chance of rain: {foreCast.list[0].pop * 100}%</p>
           <img
             className="mb-4 w-full"
@@ -99,6 +110,7 @@ function Dashboard() {
             <button
               type="button"
               className="cursor-pointer rounded-full bg-blue-500 py-2 font-bold text-white transition-all duration-400 hover:bg-blue-400 max-sm:px-2 sm:px-4"
+              onClick={() => navigate("/details")}
             >
               More info
             </button>
