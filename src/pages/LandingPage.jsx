@@ -1,7 +1,11 @@
+import { useNavigate } from "react-router-dom";
+
 import { GoArrowRight } from "react-icons/go";
 import weatherLogo from "../assets/weatherapp.png";
 
 function LandingPage() {
+  const navigate = useNavigate();
+
   return (
     <section>
       <img
@@ -18,6 +22,7 @@ function LandingPage() {
           aria-label="Go to weather search"
           type="button"
           className="my-10 ml-6 flex cursor-pointer flex-col items-center justify-center rounded-full bg-blue-600 p-1 text-2xl text-white transition-all duration-400 hover:bg-blue-500 sm:ml-12"
+          onClick={() => navigate("/search")}
         >
           <GoArrowRight />
         </button>

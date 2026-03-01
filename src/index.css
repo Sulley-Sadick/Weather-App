@@ -1,1 +1,17 @@
 @import "tailwindcss";
+
+@theme {
+  --breakpoint-max-sm: 21.25rem;
+}
+
+@utility weather-container {
+  @apply h-50 w-70 rounded-[5%] bg-blue-200;
+}
+
+@utility flex-center {
+  @apply flex items-center;
+}
+
+@utility icon-size {
+  @apply max-sm:text-[1.4rem] sm:text-3xl;
+}
