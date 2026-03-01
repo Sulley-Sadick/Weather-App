@@ -11,7 +11,7 @@ function SearchPage() {
   const navigate = useNavigate();
 
   // call weatherProvider to get the values they provide
-  const { data, loading, error, searchCity } = useContext(WeatherContext);
+  const { loading, error, searchCity } = useContext(WeatherContext);
 
   const [inputValue, setInputValue] = useState("");
 
@@ -48,6 +48,10 @@ function SearchPage() {
         >
           <GoArrowLeft />
         </button>
+
+        {loading && <p className="text-blue-600">Fetching data...</p>}
+
+        {error && <p className="text-red-500">{error}</p>}
         <form className="mt-4 flex flex-col" onSubmit={handleSubmit}>
           <label htmlFor="search" className="text-4xl font-bold">
             Search
@@ -78,7 +82,15 @@ function SearchPage() {
         <div className="mt-5 flex flex-col gap-5 md:flex-row">
           {cities.map((city) => (
             <div className="flex-center flex-col" key={city}>
-              <div className="weather-container"></div>
+              <button
+                className="cursor-pointer"
+                onClick={async () => {
+                  const success = searchCity(city);
+                  if (success) navigate("/dashboard");
+                }}
+              >
+                <div className="weather-container"></div>
+              </button>
               <div className="md:self-start">
                 <h3 className="mt-2 font-medium">Current weather in {city}</h3>
                 <p className="text-center md:text-left">Ghana</p>
@@ -92,7 +104,17 @@ function SearchPage() {
             {cities.map((city, index, arr) => (
               <div key={city}>
                 <div className="flex gap-4">
-                  <div className="h-20 w-20 rounded-md bg-blue-400"></div>
+                  <button
+                    role="button"
+                    tabIndex={0}
+                    className="cursor-pointer"
+                    onClick={async () => {
+                      const success = searchCity(city);
+                      if (success) navigate("/dashboard");
+                    }}
+                  >
+                    <div className="h-20 w-20 rounded-md bg-blue-400"></div>
+                  </button>
                   <div>
                     <h3>{city}</h3>
                     <p className="text-gray-400">Weather in {city}</p>
@@ -113,7 +135,6 @@ function SearchPage() {
           </div>
         </div>
       </div>
-      {/* BottomNavBar component */}
       <BottomNavBar />
     </section>
   );
