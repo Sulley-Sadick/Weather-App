@@ -12,8 +12,6 @@ import { GrPrevious } from "react-icons/gr";
 function Dashboard() {
   const { data } = useContext(WeatherContext);
 
-  console.log(data);
-
   const navigate = useNavigate();
 
   if (!data) return <p>Data not available</p>;
