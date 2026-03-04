@@ -11,11 +11,10 @@ function SearchPage() {
   const navigate = useNavigate();
 
   // call weatherProvider to get the values they provide
-  const { loading, error, searchCity } = useContext(WeatherContext);
+  const { weatherData, loading, error, searchCity } =
+    useContext(WeatherContext);
 
   const [inputValue, setInputValue] = useState("");
-
-  const cities = ["Kumasi", "Accra"];
 
   const handleSubmit = async function (e) {
     // prevent browser from automatically submitting the form
@@ -69,60 +68,89 @@ function SearchPage() {
             <CiSearch className="absolute top-3 left-5 text-2xl text-gray-500" />
           </div>
         </form>
-        <div className="flex-center mt-10 justify-between md:justify-normal md:gap-39">
-          <h2 className="font-bold">Recent Searches</h2>
-          <button
-            type="button"
-            aria-label="clear weather history"
-            className="cursor-pointer font-semibold hover:underline"
-          >
-            Clear history
-          </button>
-        </div>
+        {!weatherData.length ? (
+          ""
+        ) : (
+          <div className="flex-center mt-10 justify-between md:justify-normal md:gap-39">
+            <h2 className="font-bold">Recent Searches</h2>
+
+            <button
+              type="button"
+              aria-label="clear weather history"
+              className="cursor-pointer font-semibold hover:underline"
+              onClick={() => {
+                localStorage.setItem("city", JSON.stringify([]));
+              }}
+            >
+              Clear history
+            </button>
+          </div>
+        )}
+
         <div className="mt-5 flex flex-col gap-5 md:flex-row">
-          {cities.map((city) => (
-            <div className="flex-center flex-col" key={city}>
+          {weatherData.slice(0, 2).map((city) => (
+            <div className="flex-center flex-col" key={city.current.id}>
               <button
                 className="cursor-pointer"
                 onClick={async () => {
-                  const success = searchCity(city);
+                  const success = searchCity(city.current.name);
                   if (success) navigate("/dashboard");
                 }}
               >
-                <div className="weather-container"></div>
+                <div className="">
+                  <img
+                    src={`https://openweathermap.org/img/wn/${city.current.weather[0].icon}@2x.png`}
+                    alt=""
+                  />
+                </div>
               </button>
               <div className="md:self-start">
-                <h3 className="mt-2 font-medium">Current weather in {city}</h3>
-                <p className="text-center md:text-left">Ghana</p>
+                <h3 className="mt-2 font-medium">
+                  Current weather in {city.current.name}
+                </h3>
+                <p className="text-center md:text-left">
+                  {city.current.sys.country}
+                </p>
               </div>
             </div>
           ))}
         </div>
         <div>
-          <h3 className="mt-10 mb-5 font-bold">Suggested Cities</h3>
+          {!weatherData.length ? (
+            ""
+          ) : (
+            <h3 className="mt-10 mb-5 font-bold">Suggested Cities</h3>
+          )}
           <div className="flex flex-col gap-4">
-            {cities.map((city, index, arr) => (
-              <div key={city}>
+            {weatherData.slice(0, 5).map((city, index, arr) => (
+              <div key={city.current.id}>
                 <div className="flex gap-4">
                   <button
                     role="button"
                     tabIndex={0}
                     className="cursor-pointer"
                     onClick={async () => {
-                      const success = searchCity(city);
+                      const success = searchCity(city.current.name);
                       if (success) navigate("/dashboard");
                     }}
                   >
-                    <div className="h-20 w-20 rounded-md bg-blue-400"></div>
+                    <div className="">
+                      <img
+                        src={`https://openweathermap.org/img/wn/${city.current.weather[0].icon}@2x.png`}
+                        alt=""
+                      />
+                    </div>
                   </button>
                   <div>
-                    <h3>{city}</h3>
-                    <p className="text-gray-400">Weather in {city}</p>
+                    <h3>{city.current.name}</h3>
+                    <p className="text-gray-400">
+                      Weather in {city.current.name}
+                    </p>
                     <div className="flex-center gap-2">
                       <FaCloud />
-                      <span> 18</span>
+                      <span> {Math.round(city.current.main.temp)}</span>
                       <span className="text-gray-400">
-                        Humidity: {city === "Kumasi" ? "70%" : "80%"}{" "}
+                        Humidity: {Math.round(city.current.main.humidity)}%
                       </span>
                     </div>
                   </div>

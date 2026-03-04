@@ -1,13 +1,18 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import weatherService from "../services/weatherService";
+import { useLocalStorage } from "../customHooks/useLocalStorage";
 
 // create context
 export const WeatherContext = createContext();
 
 const WeatherProvider = ({ children }) => {
-  const [data, setData] = useState(null);
+  const [weatherData, setWeatherData] = useState(
+    () => JSON.parse(localStorage.getItem("city")) || [],
+  );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  useLocalStorage(weatherData);
 
   const searchCity = async function (city) {
     try {
@@ -17,7 +22,13 @@ const WeatherProvider = ({ children }) => {
       // fetch data
       const [current, foreCast] = await weatherService(city);
 
-      setData({ current, foreCast });
+      setWeatherData((prev) => {
+        const exist = prev.some((item) => item.current.id === current.id);
+
+        if (exist) return prev;
+
+        return [...prev, { current, foreCast }];
+      });
 
       return true; // success message
     } catch (err) {
@@ -30,7 +41,9 @@ const WeatherProvider = ({ children }) => {
   };
 
   return (
-    <WeatherContext.Provider value={{ loading, data, error, searchCity }}>
+    <WeatherContext.Provider
+      value={{ loading, weatherData, error, searchCity }}
+    >
       {children}
     </WeatherContext.Provider>
   );

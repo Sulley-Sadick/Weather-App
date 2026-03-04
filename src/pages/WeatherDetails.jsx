@@ -9,11 +9,11 @@ import BottomNavBar from "../components/BottomNavBar";
 function WeatherDetails() {
   const navigate = useNavigate();
 
-  const { data } = useContext(WeatherContext);
+  const { weatherData } = useContext(WeatherContext);
 
-  if (!data) return <p>Data not available</p>;
+  if (!weatherData.length) return <p>Data not available</p>;
 
-  const { current, foreCast } = data;
+  const { current, foreCast } = weatherData[0];
 
   return (
     <section>
@@ -31,7 +31,7 @@ function WeatherDetails() {
         </h2>
         <div className="flex-center mt-8 flex-col">
           <h1 className="mb-4 text-4xl font-black">{current.name}</h1>
-          <p>Chance of rain: {foreCast.list[0].pop * 100}%</p>
+          <p>Chance of rain: {Math.round(foreCast.list[0].pop * 100)}%</p>
           <img
             src={`https://openweathermap.org/img/wn/${current.weather[0].icon}@2x.png`}
             alt={current.weather[0].main}

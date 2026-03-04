@@ -10,13 +10,13 @@ import { WeatherContext } from "../context/WeatherContext";
 import { GrPrevious } from "react-icons/gr";
 
 function Dashboard() {
-  const { data } = useContext(WeatherContext);
+  const { weatherData } = useContext(WeatherContext);
 
   const navigate = useNavigate();
 
-  if (!data) return <p>Data not available</p>;
+  if (!weatherData.length) return <p>Data not available</p>;
 
-  const { current, foreCast } = data;
+  const { current, foreCast } = weatherData[weatherData.length - 1];
 
   const weeklyData = foreCast.list.filter((numDays) =>
     numDays.dt_txt.includes("12:00"),
@@ -34,7 +34,7 @@ function Dashboard() {
         </button>
         <div className="flex-center flex-col">
           <h1 className="-mt-7 mb-2 text-3xl font-bold">{current.name}</h1>
-          <p>Chance of rain: {foreCast.list[0].pop * 100}%</p>
+          <p>Chance of rain: {Math.round(foreCast.list[0].pop * 100)}%</p>
           <img
             className="mb-4 w-full"
             src={`https://openweathermap.org/img/wn/${current.weather[0].icon}@2x.png`}
