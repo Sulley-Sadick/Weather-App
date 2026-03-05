@@ -9,11 +9,9 @@ import BottomNavBar from "../components/BottomNavBar";
 function WeatherDetails() {
   const navigate = useNavigate();
 
-  const { weatherData } = useContext(WeatherContext);
+  const { selectedWeather } = useContext(WeatherContext);
 
-  if (!weatherData.length) return <p>Data not available</p>;
-
-  const { current, foreCast } = weatherData[0];
+  if (!selectedWeather) return <p>Data not available</p>;
 
   return (
     <section>
@@ -30,14 +28,19 @@ function WeatherDetails() {
           Current Weather
         </h2>
         <div className="flex-center mt-8 flex-col">
-          <h1 className="mb-4 text-4xl font-black">{current.name}</h1>
-          <p>Chance of rain: {Math.round(foreCast.list[0].pop * 100)}%</p>
+          <h1 className="mb-4 text-4xl font-black">
+            {selectedWeather.current.name}
+          </h1>
+          <p>
+            Chance of rain:{" "}
+            {Math.round(selectedWeather.foreCast.list[0].pop * 100)}%
+          </p>
           <img
-            src={`https://openweathermap.org/img/wn/${current.weather[0].icon}@2x.png`}
-            alt={current.weather[0].main}
+            src={`https://openweathermap.org/img/wn/${selectedWeather.current.weather[0].icon}@2x.png`}
+            alt={selectedWeather.current.weather[0].main}
           />
           <h3 className="text-4xl font-black">
-            {Math.round(current.main.temp)}℃
+            {Math.round(selectedWeather.current.main.temp)}℃
           </h3>
         </div>
         <div className="mt-15 grid grid-cols-2 gap-4">
@@ -48,41 +51,45 @@ function WeatherDetails() {
           <div className="box-container">
             <p className="mb-2">Wind Speed</p>
             <span className="text-2xl font-bold">
-              {Math.round(current.wind.speed)}m/s
+              {Math.round(selectedWeather.current.wind.speed)}m/s
             </span>
           </div>
           <div className="box-container">
             <p className="mb-2">Humidity</p>
-            <span className="text-2xl font-bold">{current.main.humidity}%</span>
+            <span className="text-2xl font-bold">
+              {selectedWeather.current.main.humidity}%
+            </span>
           </div>
           <div className="box-container">
             <p className="mb-2">Visibility</p>
             <span className="text-2xl font-bold">
-              {current.visibility / 1000}k/m
+              {selectedWeather.current.visibility / 1000}k/m
             </span>
           </div>
           <div className="box-container">
             <p className="mb-2">Feels like</p>
             <span className="text-2xl font-bold">
-              {Math.round(current.main.feels_like)}℃
+              {Math.round(selectedWeather.current.main.feels_like)}℃
             </span>
           </div>
           <div className="box-container">
             <p className="mb-2">Chance of rain</p>
             <span className="text-2xl font-bold">
-              {foreCast.list[0].pop * 100}%
+              {selectedWeather.foreCast.list[0].pop * 100}%
             </span>
           </div>
           <div className="box-container">
             <p className="mb-2">Pressure</p>
             <span className="text-2xl font-bold">
-              {current.main.pressure} hPa
+              {selectedWeather.current.main.pressure} hPa
             </span>
           </div>
           <div className="box-container">
             <p className="mb-2">Sunset</p>
             <span className="text-2xl font-bold">
-              {new Date(current.sys.sunset * 1000).toLocaleTimeString("en-Us", {
+              {new Date(
+                selectedWeather.current.sys.sunset * 1000,
+              ).toLocaleTimeString("en-Us", {
                 hour: "numeric",
                 minute: "numeric",
               })}

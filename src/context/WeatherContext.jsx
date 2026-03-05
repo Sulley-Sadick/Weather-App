@@ -1,21 +1,30 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 import weatherService from "../services/weatherService";
-import { useLocalStorage } from "../customHooks/useLocalStorage";
+import {
+  useLocalStorageForSelectedWeather,
+  useLocalStorageForWeatherHistory,
+} from "../customHooks/useLocalStorage";
 
 // create context
 export const WeatherContext = createContext();
 
 const WeatherProvider = ({ children }) => {
-  const [weatherData, setWeatherData] = useState(
-    () => JSON.parse(localStorage.getItem("city")) || [],
+  const [weatherHistory, setWeatherHistory] = useState(
+    () => JSON.parse(localStorage.getItem("weatherHistory")) || [],
+  );
+  const [selectedWeather, setSelectedWeather] = useState(
+    () => JSON.parse(localStorage.getItem("selectedWeather")) || null,
   );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const resetWeatherData = () => setWeatherData([]);
+  const resetWeatherData = () => setWeatherHistory([]);
 
-  // store weatherData into localStorage
-  useLocalStorage(weatherData);
+  // store weatherHistory into localStorage
+  useLocalStorageForWeatherHistory(weatherHistory);
+
+  // store selectedWeather into localStorage
+  useLocalStorageForSelectedWeather(selectedWeather);
 
   const searchCity = async function (city) {
     try {
@@ -23,15 +32,26 @@ const WeatherProvider = ({ children }) => {
       setLoading(true);
 
       // fetch data
-      const [current, foreCast] = await weatherService(city);
+      const [data, foreCastData] = await weatherService(city);
 
-      setWeatherData((prev) => {
-        const exist = prev.some((item) => item.current.id === current.id);
+      const weatherObject = {
+        current: data,
+        foreCast: foreCastData,
+      };
+
+      // weatherHistory
+      setWeatherHistory((prev) => {
+        const exist = prev.some(
+          (item) => item.current.id === weatherObject.current.id,
+        );
 
         if (exist) return prev;
 
-        return [...prev, { current, foreCast }];
+        return [...prev, weatherObject];
       });
+
+      // selectedWeather
+      setSelectedWeather(weatherObject);
 
       return true; // success message
     } catch (err) {
@@ -45,7 +65,14 @@ const WeatherProvider = ({ children }) => {
 
   return (
     <WeatherContext.Provider
-      value={{ loading, weatherData, error, searchCity, resetWeatherData }}
+      value={{
+        loading,
+        weatherHistory,
+        selectedWeather,
+        error,
+        searchCity,
+        resetWeatherData,
+      }}
     >
       {children}
     </WeatherContext.Provider>

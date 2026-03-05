@@ -1,11 +1,17 @@
 import { useEffect } from "react";
 
-export function useLocalStorage(weatherData) {
+export function useLocalStorageForWeatherHistory(weatherHistory) {
   useEffect(() => {
-    if (!weatherData.length) return;
+    if (!weatherHistory.length) return;
 
-    localStorage.setItem("city", JSON.stringify(weatherData));
-  }, [weatherData]);
+    localStorage.setItem("weatherHistory", JSON.stringify(weatherHistory));
+  }, [weatherHistory]);
 
-  return weatherData;
+  return weatherHistory;
+}
+
+export function useLocalStorageForSelectedWeather(selectedWeather) {
+  useEffect(() => {
+    localStorage.setItem("selectedWeather", JSON.stringify(selectedWeather));
+  }, [selectedWeather]);
 }

@@ -11,7 +11,7 @@ function SearchPage() {
   const navigate = useNavigate();
 
   // call weatherProvider to get the values they provide
-  const { weatherData, loading, error, resetWeatherData, searchCity } =
+  const { weatherHistory, loading, error, resetWeatherData, searchCity } =
     useContext(WeatherContext);
 
   const [inputValue, setInputValue] = useState("");
@@ -68,10 +68,10 @@ function SearchPage() {
             <CiSearch className="absolute top-3 left-5 text-2xl text-gray-500" />
           </div>
         </form>
-        {!weatherData.length ? (
+        {!weatherHistory.length ? (
           ""
         ) : (
-          <div className="flex-center mt-10 justify-between md:gap-39">
+          <div className="flex-center mt-10 max-sm:justify-between sm:justify-normal md:gap-61">
             <h2 className="font-bold">Recent Searches</h2>
 
             <button
@@ -85,8 +85,8 @@ function SearchPage() {
           </div>
         )}
 
-        <div className="mt-5 flex flex-col justify-around gap-5 md:flex-row">
-          {weatherData.slice(0, 2).map((city) => (
+        <div className="mt-5 flex flex-col max-sm:gap-5 sm:gap-20 md:flex-row">
+          {weatherHistory.slice(0, 2).map((city) => (
             <div className="flex-center flex-col" key={city.current.id}>
               <button
                 className="cursor-pointer"
@@ -112,13 +112,13 @@ function SearchPage() {
           ))}
         </div>
         <div>
-          {!weatherData.length ? (
+          {!weatherHistory.length ? (
             ""
           ) : (
             <h3 className="mt-10 mb-5 font-bold">Suggested Cities</h3>
           )}
           <div className="flex flex-col gap-4">
-            {weatherData.slice(0, 5).map((city, index, arr) => (
+            {weatherHistory.slice(0, 5).map((city, index, arr) => (
               <div key={city.current.id}>
                 <div className="flex gap-4">
                   <button
@@ -130,7 +130,7 @@ function SearchPage() {
                       if (success) navigate("/dashboard");
                     }}
                   >
-                    <div className="">
+                    <div>
                       <img
                         src={`https://openweathermap.org/img/wn/${city.current.weather[0].icon}@2x.png`}
                         alt=""
