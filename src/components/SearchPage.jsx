@@ -11,7 +11,7 @@ function SearchPage() {
   const navigate = useNavigate();
 
   // call weatherProvider to get the values they provide
-  const { weatherData, loading, error, searchCity } =
+  const { weatherData, loading, error, resetWeatherData, searchCity } =
     useContext(WeatherContext);
 
   const [inputValue, setInputValue] = useState("");
@@ -78,9 +78,7 @@ function SearchPage() {
               type="button"
               aria-label="clear weather history"
               className="cursor-pointer font-semibold hover:underline"
-              onClick={() => {
-                localStorage.setItem("city", JSON.stringify([]));
-              }}
+              onClick={resetWeatherData}
             >
               Clear history
             </button>
@@ -97,7 +95,7 @@ function SearchPage() {
                   if (success) navigate("/dashboard");
                 }}
               >
-                <div className="">
+                <div>
                   <img
                     src={`https://openweathermap.org/img/wn/${city.current.weather[0].icon}@2x.png`}
                     alt=""

@@ -12,6 +12,9 @@ const WeatherProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  const resetWeatherData = () => setWeatherData([]);
+
+  // store weatherData into localStorage
   useLocalStorage(weatherData);
 
   const searchCity = async function (city) {
@@ -42,7 +45,7 @@ const WeatherProvider = ({ children }) => {
 
   return (
     <WeatherContext.Provider
-      value={{ loading, weatherData, error, searchCity }}
+      value={{ loading, weatherData, error, searchCity, resetWeatherData }}
     >
       {children}
     </WeatherContext.Provider>
