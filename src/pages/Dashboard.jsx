@@ -25,7 +25,7 @@ function Dashboard() {
   );
 
   return (
-    <section className="dark:bg-gray-900 dark:text-gray-100">
+    <section className="min-h-screen w-full dark:bg-gray-900 dark:text-gray-100">
       <div className="flex-center mb-12 w-full flex-col p-5">
         <div className="mb-10 flex w-full items-center justify-between">
           <button

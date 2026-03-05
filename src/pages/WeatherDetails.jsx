@@ -15,7 +15,7 @@ function WeatherDetails() {
   if (!selectedWeather) return <p>Data not available</p>;
 
   return (
-    <section className="dark:bg-gray-900 dark:text-gray-100">
+    <section className="min-h-screen w-full dark:bg-gray-900 dark:text-gray-100">
       <div className="flex-center mb-10 w-full flex-col justify-center p-6">
         <div className="flex-center w-full justify-between">
           <button
