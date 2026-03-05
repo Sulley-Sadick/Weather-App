@@ -1,9 +1,13 @@
-import { createContext, useState } from "react";
+// hooks
+import { createContext, useEffect, useState } from "react";
+
+// created components
 import weatherService from "../services/weatherService";
 import {
   useLocalStorageForSelectedWeather,
   useLocalStorageForWeatherHistory,
 } from "../customHooks/useLocalStorage";
+import useToggleTheme from "../customHooks/useToggleTheme";
 
 // create context
 export const WeatherContext = createContext();
@@ -15,16 +19,32 @@ const WeatherProvider = ({ children }) => {
   const [selectedWeather, setSelectedWeather] = useState(
     () => JSON.parse(localStorage.getItem("selectedWeather")) || null,
   );
+  const [theme, setTheme] = useState(
+    () => JSON.parse(localStorage.getItem("theme")) || false,
+  );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
-  const resetWeatherData = () => setWeatherHistory([]);
 
   // store weatherHistory into localStorage
   useLocalStorageForWeatherHistory(weatherHistory);
 
   // store selectedWeather into localStorage
   useLocalStorageForSelectedWeather(selectedWeather);
+
+  // store theme in the localStorage
+  useToggleTheme(theme);
+
+  // change theme
+  const changeTheme = () => setTheme(() => !theme);
+
+  // add dark class to body when theme is true
+  useEffect(() => {
+    if (theme) document.documentElement.classList.add("dark");
+    else document.documentElement.classList.remove("dark");
+  }, [theme]);
+
+  // clear states
+  const resetWeatherData = () => setWeatherHistory([]);
 
   const searchCity = async function (city) {
     try {
@@ -72,6 +92,8 @@ const WeatherProvider = ({ children }) => {
         error,
         searchCity,
         resetWeatherData,
+        theme,
+        changeTheme,
       }}
     >
       {children}

@@ -5,6 +5,7 @@ import { GrPrevious } from "react-icons/gr";
 import { useNavigate } from "react-router-dom";
 
 import BottomNavBar from "../components/BottomNavBar";
+import ToggleTheme from "../components/ToggleTheme";
 
 function WeatherDetails() {
   const navigate = useNavigate();
@@ -14,17 +15,20 @@ function WeatherDetails() {
   if (!selectedWeather) return <p>Data not available</p>;
 
   return (
-    <section>
+    <section className="dark:bg-gray-900 dark:text-gray-100">
       <div className="flex-center mb-10 w-full flex-col justify-center p-6">
-        <button
-          type="button"
-          aria-label="Go back"
-          className="ml-2 flex cursor-pointer self-start text-2xl"
-          onClick={() => navigate("/dashboard")}
-        >
-          <GrPrevious />
-        </button>
-        <h2 className="-mt-6 flex text-[1rem] font-black sm:text-2xl">
+        <div className="flex-center w-full justify-between">
+          <button
+            type="button"
+            aria-label="Go back"
+            className="ml-2 flex cursor-pointer text-2xl"
+            onClick={() => navigate("/dashboard")}
+          >
+            <GrPrevious />
+          </button>
+          <ToggleTheme />
+        </div>
+        <h2 className="mt-10 flex text-[1rem] font-black sm:text-2xl">
           Current Weather
         </h2>
         <div className="flex-center mt-8 flex-col">

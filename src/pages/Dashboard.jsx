@@ -1,13 +1,17 @@
+// hooks
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
+// in-built components
 import { PiThermometerSimpleBold } from "react-icons/pi";
 import { FaWind } from "react-icons/fa";
 import { IoSettings, IoWaterSharp } from "react-icons/io5";
+import { GrPrevious } from "react-icons/gr";
 
+// created components
 import BottomNavBar from "../components/BottomNavBar";
 import { WeatherContext } from "../context/WeatherContext";
-import { GrPrevious } from "react-icons/gr";
+import ToggleTheme from "../components/ToggleTheme";
 
 function Dashboard() {
   const { selectedWeather } = useContext(WeatherContext);
@@ -21,17 +25,20 @@ function Dashboard() {
   );
 
   return (
-    <section>
-      <div className="flex-center mb-20 w-full flex-col p-10">
-        <button
-          className="flex cursor-pointer self-start text-2xl"
-          onClick={() => navigate("/search")}
-          aria-label="Go back"
-        >
-          <GrPrevious />
-        </button>
+    <section className="dark:bg-gray-900 dark:text-gray-100">
+      <div className="flex-center mb-12 w-full flex-col p-5">
+        <div className="mb-10 flex w-full items-center justify-between">
+          <button
+            className="cursor-pointer text-2xl"
+            onClick={() => navigate("/search")}
+            aria-label="Go back"
+          >
+            <GrPrevious />
+          </button>
+          <ToggleTheme />
+        </div>
         <div className="flex-center flex-col">
-          <h1 className="-mt-7 mb-2 text-3xl font-bold">
+          <h1 className="mb-2 text-3xl font-bold">
             {selectedWeather.current.name}
           </h1>
           <p>
@@ -47,11 +54,11 @@ function Dashboard() {
             {Math.round(selectedWeather.current.main.temp)}℃
           </h3>
         </div>
-        <div className="w-full rounded-md p-4 shadow-md md:w-[80%]">
+        <div className="w-full rounded-md p-4 shadow-md md:w-[80%] dark:bg-gray-800">
           <h3 className="my-4 font-bold max-sm:text-center sm:text-left">
             Today's Weather
           </h3>
-          <div className="flex divide-y divide-gray-900 max-sm:flex-col max-sm:items-center sm:divide-x sm:divide-y-0 md:flex-row md:justify-between">
+          <div className="flex divide-y divide-gray-900 max-sm:flex-col max-sm:items-center sm:divide-x sm:divide-y-0 md:flex-row md:justify-between dark:divide-gray-700">
             {selectedWeather.foreCast.list.slice(0, 3).map((weather) => (
               <div
                 key={weather.dt_txt}
@@ -72,11 +79,11 @@ function Dashboard() {
             ))}
           </div>
         </div>
-        <div className="mt-20 w-full rounded-lg p-6 shadow-md md:w-[80%]">
+        <div className="mt-20 w-full rounded-lg p-6 shadow-md md:w-[80%] dark:bg-gray-800">
           <h3 className="my-2 font-bold max-sm:text-center sm:text-left">
             Weekly outlook
           </h3>
-          <div className="divide-y">
+          <div className="w-full divide-y">
             {weeklyData.map((weather, index) => (
               <div key={weather.dt_txt}>
                 <div className="flex-center justify-between max-sm:flex-col md:flex-row">
@@ -103,7 +110,7 @@ function Dashboard() {
             ))}
           </div>
         </div>
-        <div className="mt-20 w-full shadow-md max-sm:p-4 sm:p-6 md:w-[80%]">
+        <div className="mt-20 w-full shadow-md max-sm:p-4 sm:p-6 md:w-[80%] dark:bg-gray-800">
           <div className="flex items-center justify-between">
             <h3 className="font-bold">Weather details</h3>
             <button

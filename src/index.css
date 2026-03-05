@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --breakpoint-max-sm: 21.25rem;
 }
@@ -17,5 +19,5 @@
 }
 
 @utility box-container {
-  @apply m-2 w-full gap-x-20 rounded-lg p-8 shadow-md;
+  @apply m-2 w-full gap-x-20 rounded-lg p-8 shadow-md dark:bg-gray-800;
 }
