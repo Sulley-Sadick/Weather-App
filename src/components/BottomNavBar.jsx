@@ -25,9 +25,6 @@ function BottomNavBar() {
       <button type="button" className="cursor-pointer" aria-label="map">
         <FaMap className="icon-size" />
       </button>
-      <button type="button" className="cursor-pointer" aria-label="settings">
-        <IoMdSettings className="icon-size" />
-      </button>
     </nav>
   );
 }
