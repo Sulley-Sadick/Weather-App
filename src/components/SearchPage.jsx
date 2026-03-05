@@ -71,7 +71,7 @@ function SearchPage() {
         {!weatherData.length ? (
           ""
         ) : (
-          <div className="flex-center mt-10 justify-between md:justify-normal md:gap-39">
+          <div className="flex-center mt-10 justify-between md:gap-39">
             <h2 className="font-bold">Recent Searches</h2>
 
             <button
@@ -87,7 +87,7 @@ function SearchPage() {
           </div>
         )}
 
-        <div className="mt-5 flex flex-col gap-5 md:flex-row">
+        <div className="mt-5 flex flex-col justify-around gap-5 md:flex-row">
           {weatherData.slice(0, 2).map((city) => (
             <div className="flex-center flex-col" key={city.current.id}>
               <button
@@ -108,9 +108,7 @@ function SearchPage() {
                 <h3 className="mt-2 font-medium">
                   Current weather in {city.current.name}
                 </h3>
-                <p className="text-center md:text-left">
-                  {city.current.sys.country}
-                </p>
+                <p className="text-center">{city.current.sys.country}</p>
               </div>
             </div>
           ))}
