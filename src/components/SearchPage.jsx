@@ -136,7 +136,7 @@ function SearchPage() {
               Suggested Cities
             </h3>
           )}
-          <div className="flex flex-col gap-4">
+          <div className="mt-10 grid grid-cols-1 gap-4 divide-y sm:grid-cols-2">
             {weatherHistory.slice(0, 5).map((city) => (
               <div key={city.current.id}>
                 <div className="flex gap-4">

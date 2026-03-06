@@ -44,6 +44,16 @@ const WeatherProvider = ({ children }) => {
     else document.documentElement.classList.remove("dark");
   }, [theme]);
 
+  useEffect(() => {
+    if (!city) return;
+
+    const interval = setInterval(async () => {
+      await searchCity(city);
+    }, 300000);
+
+    return () => clearInterval(interval);
+  }, [city]);
+
   // clear states
   const resetWeatherData = () => setWeatherHistory([]);
 

@@ -42,7 +42,7 @@ function WeatherCard() {
             {selectedWeather.current.name}
           </h1>
           <p>
-            Chance of rain:
+            Chance of rain:{" "}
             {Math.round(selectedWeather.foreCast.list[0].pop * 100)}%
           </p>
           <img
