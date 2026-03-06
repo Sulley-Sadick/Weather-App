@@ -22,7 +22,7 @@ function WeatherDetails() {
             type="button"
             aria-label="Go back"
             className="ml-2 flex cursor-pointer text-2xl"
-            onClick={() => navigate("/dashboard")}
+            onClick={() => navigate("/weathercard")}
           >
             <GrPrevious />
           </button>

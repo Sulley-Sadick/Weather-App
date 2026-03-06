@@ -24,6 +24,7 @@ const WeatherProvider = ({ children }) => {
   );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [city, setCity] = useState("");
 
   // store weatherHistory into localStorage
   useLocalStorageForWeatherHistory(weatherHistory);
@@ -50,6 +51,12 @@ const WeatherProvider = ({ children }) => {
     try {
       // loading when fetching data
       setLoading(true);
+
+      // update error before any request
+      setError(null);
+
+      // update city state
+      setCity(city);
 
       // fetch data
       const [data, foreCastData] = await weatherService(city);
@@ -78,7 +85,7 @@ const WeatherProvider = ({ children }) => {
       setError(err.message);
       return false; // failure message
     } finally {
-      // update loading to false when done fetching data
+      // update loading to false when done fetching data or unable to fetch
       setLoading(false);
     }
   };
@@ -94,6 +101,7 @@ const WeatherProvider = ({ children }) => {
         resetWeatherData,
         theme,
         changeTheme,
+        city,
       }}
     >
       {children}

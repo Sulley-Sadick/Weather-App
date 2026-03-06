@@ -13,7 +13,7 @@ import BottomNavBar from "../components/BottomNavBar";
 import { WeatherContext } from "../context/WeatherContext";
 import ToggleTheme from "../components/ToggleTheme";
 
-function Dashboard() {
+function WeatherCard() {
   const { selectedWeather } = useContext(WeatherContext);
 
   const navigate = useNavigate();
@@ -42,7 +42,7 @@ function Dashboard() {
             {selectedWeather.current.name}
           </h1>
           <p>
-            Chance of rain:{" "}
+            Chance of rain:
             {Math.round(selectedWeather.foreCast.list[0].pop * 100)}%
           </p>
           <img
@@ -174,4 +174,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default WeatherCard;

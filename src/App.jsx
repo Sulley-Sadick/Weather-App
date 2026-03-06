@@ -3,8 +3,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SearchPage from "./components/SearchPage";
 import LandingPage from "./pages/LandingPage";
 import WeatherProvider from "./context/WeatherContext";
-import Dashboard from "./pages/Dashboard";
 import WeatherDetails from "./pages/WeatherDetails";
+import WeatherCard from "./pages/WeatherCard";
 
 function App() {
   return (
@@ -13,7 +13,7 @@ function App() {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/search" element={<SearchPage />} />{" "}
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/weathercard" element={<WeatherCard />} />
           <Route path="/details" element={<WeatherDetails />} />
         </Routes>
       </BrowserRouter>

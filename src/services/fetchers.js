@@ -2,13 +2,16 @@ export const getJSON = async (url) => {
   let response;
   try {
     response = await fetch(url);
-  } catch {
-    throw new Error("Network error: failed to fetch data");
+  } catch (err) {
+    throw new Error(
+      "Network error. Please check your network connection and try again.",
+    );
   }
 
   if (!response.ok) {
-    if (response.satus === 404) "city not found, check your spellings";
-    `server error: ${response.status} ${response.statusText}`;
+    throw new Error(
+      `Unable to fetch weather data. Please check city spellings and try again.`,
+    );
   }
 
   let data;
@@ -17,7 +20,7 @@ export const getJSON = async (url) => {
     data = await response.json();
 
     return data;
-  } catch {
-    throw new Error("Failed to parse response from server");
+  } catch (err) {
+    throw new Error("Unable to parse server response. try again later.");
   }
 };

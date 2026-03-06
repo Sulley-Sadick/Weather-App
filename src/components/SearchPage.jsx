@@ -11,12 +11,14 @@ import { FaCloud } from "react-icons/fa";
 import BottomNavBar from "./BottomNavBar";
 import { WeatherContext } from "../context/WeatherContext";
 import ToggleTheme from "./ToggleTheme";
+import ErrorMessage from "./ErrorMessage";
+import Spinner from "./Spinner";
 
 function SearchPage() {
   const navigate = useNavigate();
 
-  // call weatherProvider to get the values they provide
-  const { weatherHistory, loading, error, resetWeatherData, searchCity } =
+  // call weatherProvider to get the values and functions they provide
+  const { weatherHistory, loading, error, city, resetWeatherData, searchCity } =
     useContext(WeatherContext);
 
   const [inputValue, setInputValue] = useState("");
@@ -34,8 +36,8 @@ function SearchPage() {
     // pass inputValue to searchCity function when being called in WeatherContext.jsx
     const success = await searchCity(inputValue);
 
-    // go to dashboard
-    if (success) navigate("/dashboard");
+    // go to weathercard
+    if (success) navigate("/weathercard");
 
     // clear input field
     setInputValue("");
@@ -55,27 +57,31 @@ function SearchPage() {
           </button>
           <ToggleTheme />
         </div>
-
-        {loading && <p className="text-blue-600">Fetching data...</p>}
-
-        {error && <p className="text-red-500">{error}</p>}
-        <form className="mt-4 flex flex-col" onSubmit={handleSubmit}>
-          <label htmlFor="search" className="text-4xl font-bold">
-            Search
-          </label>
-          <div className="relative my-4 rounded-full p-2 shadow-[5px_5px_20px_rgba(0,0,0,0.2)] lg:max-w-[30%]">
-            <input
-              className="flex-center w-full rounded-md pt-0.5 pr-2 pl-10 font-medium text-gray-800 shadow-2xl outline-none focus:rounded-md dark:bg-gray-800 dark:text-gray-100"
-              type="search"
-              placeholder="Enter city name"
-              name="search"
-              id="search"
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-            />
-            <CiSearch className="absolute top-3 left-5 text-2xl text-gray-500" />
-          </div>
-        </form>
+        <div>
+          <form className="mt-4 mb-6 flex flex-col" onSubmit={handleSubmit}>
+            <label htmlFor="search" className="text-4xl font-bold">
+              Search
+            </label>
+            <div className="flex-center gap-20">
+              <div className="relative my-4 rounded-full p-2 shadow-[5px_5px_20px_rgba(0,0,0,0.2)] lg:max-w-[30%]">
+                <input
+                  className="flex-center w-full rounded-md pt-0.5 pr-2 pl-10 font-medium text-gray-800 shadow-2xl outline-none focus:rounded-md dark:bg-gray-800 dark:text-gray-100"
+                  type="search"
+                  placeholder="Enter city name"
+                  name="search"
+                  id="search"
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                />
+                <CiSearch className="absolute top-3 left-5 text-2xl text-gray-500" />
+              </div>
+              {loading && <Spinner />}
+            </div>
+          </form>
+          {error && (
+            <ErrorMessage message={error} onRetry={() => searchCity(city)} />
+          )}
+        </div>
         {!weatherHistory.length ? (
           ""
         ) : (
@@ -100,9 +106,11 @@ function SearchPage() {
             <div className="flex-center flex-col" key={city.current.id}>
               <button
                 className="cursor-pointer"
+                role="search"
+                aria-label="search weather data"
                 onClick={async () => {
-                  const success = searchCity(city.current.name);
-                  if (success) navigate("/dashboard");
+                  const success = await searchCity(city.current.name);
+                  if (success) navigate("/weathercard");
                 }}
               >
                 <div>
@@ -111,15 +119,12 @@ function SearchPage() {
                     alt=""
                   />
                 </div>
+                <div className="md:self-start">
+                  <h3 className="mt-2 font-medium text-gray-900 dark:text-gray-100">
+                    Current weather in {city.current.name}
+                  </h3>
+                </div>
               </button>
-              <div className="md:self-start">
-                <h3 className="mt-2 font-medium text-gray-900 dark:text-gray-100">
-                  Current weather in {city.current.name}
-                </h3>
-                <p className="text-center text-gray-800 dark:text-gray-100">
-                  {city.current.sys.country}
-                </p>
-              </div>
             </div>
           ))}
         </div>
@@ -132,7 +137,7 @@ function SearchPage() {
             </h3>
           )}
           <div className="flex flex-col gap-4">
-            {weatherHistory.slice(0, 5).map((city, index, arr) => (
+            {weatherHistory.slice(0, 5).map((city) => (
               <div key={city.current.id}>
                 <div className="flex gap-4">
                   <button
@@ -140,8 +145,8 @@ function SearchPage() {
                     tabIndex={0}
                     className="cursor-pointer"
                     onClick={async () => {
-                      const success = searchCity(city.current.name);
-                      if (success) navigate("/dashboard");
+                      const success = await searchCity(city.current.name);
+                      if (success) navigate("/weathercard");
                     }}
                   >
                     <div>
@@ -167,9 +172,6 @@ function SearchPage() {
                     </div>
                   </div>
                 </div>
-                {index !== arr.length - 1 && (
-                  <hr className="my-4 w-full text-gray-300" />
-                )}
               </div>
             ))}
           </div>
