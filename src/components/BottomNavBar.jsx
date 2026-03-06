@@ -7,7 +7,7 @@ function BottomNavBar() {
   return (
     <nav className="flex-center fixed bottom-0 w-full justify-center gap-20 bg-[#f5f6f6] py-4 dark:bg-gray-800">
       <button
-        onClick={() => navigate("/dashboard")}
+        onClick={() => navigate("/weathercard")}
         type="button"
         className="cursor-pointer"
         aria-label="weather details"
