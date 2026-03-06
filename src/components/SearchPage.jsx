@@ -44,7 +44,7 @@ function SearchPage() {
   };
 
   return (
-    <section className="mb-12 bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-100">
+    <section className="mb-12 min-h-screen w-full bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-100">
       <div className="p-6">
         <div className="flex-center justify-between">
           <button
