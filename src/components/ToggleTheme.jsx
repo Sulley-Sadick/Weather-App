@@ -20,7 +20,7 @@ function ToggleTheme() {
         onClick={changeTheme}
       >
         <span
-          className={`block h-4 ${theme ? "translate-x-5" : "translate-0"} w-4 rounded-full bg-white transition-transform duration-400 dark:bg-gray-900`}
+          className={`block h-4 ${theme ? "translate-x-5" : "translate-0"} w-4 rounded-full bg-gray-900 transition-transform duration-400 dark:bg-white`}
         ></span>
       </button>
     </div>

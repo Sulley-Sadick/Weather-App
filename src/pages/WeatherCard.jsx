@@ -54,7 +54,7 @@ function WeatherCard() {
             {Math.round(selectedWeather.current.main.temp)}℃
           </h3>
         </div>
-        <div className="w-full rounded-md p-4 shadow-md md:w-[80%] dark:bg-gray-800">
+        <div className="w-full rounded-md bg-gray-300 p-4 shadow-md md:w-[80%] dark:bg-gray-800">
           <h3 className="my-4 font-bold max-sm:text-center sm:text-left">
             Today's Weather
           </h3>
@@ -79,7 +79,7 @@ function WeatherCard() {
             ))}
           </div>
         </div>
-        <div className="mt-20 w-full rounded-lg p-6 shadow-md md:w-[80%] dark:bg-gray-800">
+        <div className="mt-20 w-full rounded-lg bg-gray-300 p-6 shadow-md md:w-[80%] dark:bg-gray-800">
           <h3 className="my-2 font-bold max-sm:text-center sm:text-left">
             Weekly outlook
           </h3>
@@ -110,7 +110,7 @@ function WeatherCard() {
             ))}
           </div>
         </div>
-        <div className="mt-20 w-full shadow-md max-sm:p-4 sm:p-6 md:w-[80%] dark:bg-gray-800">
+        <div className="mt-20 w-full rounded-md bg-gray-300 shadow-md max-sm:p-4 sm:p-6 md:w-[80%] dark:bg-gray-800">
           <div className="flex items-center justify-between">
             <h3 className="font-bold">Weather details</h3>
             <button
