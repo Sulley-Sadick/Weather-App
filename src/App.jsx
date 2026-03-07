@@ -5,7 +5,7 @@ import { LandingPage } from "./pages/LandingPage";
 import { WeatherProvider } from "./context/WeatherContext";
 import { WeatherDetails } from "./pages/WeatherDetails";
 import { WeatherCard } from "./pages/WeatherCard";
-import { LocationProvider } from "./context/locationContext";
+import { LocationProvider } from "./context/LocationContext";
 import { ThemeProvider } from "./context/ThemeContext";
 
 function App() {

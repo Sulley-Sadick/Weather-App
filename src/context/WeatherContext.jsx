@@ -10,7 +10,7 @@ import {
   useLocalStorageForSelectedWeather,
   useLocalStorageForWeatherHistory,
 } from "../customHooks/useLocalStorage";
-import { LocationContext } from "./locationContext";
+import { LocationContext } from "./LocationContext";
 
 // create context
 export const WeatherContext = createContext(null);
