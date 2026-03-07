@@ -13,7 +13,7 @@ import { WeatherContext } from "../context/WeatherContext";
 import { ToggleTheme } from "./ToggleTheme";
 import { ErrorMessage } from "./ErrorMessage";
 import { Spinner } from "./Spinner";
-import { LocationContext } from "../context/locationContext";
+import { LocationContext } from "../context/LocationContext";
 
 export function SearchPage() {
   const navigate = useNavigate();
