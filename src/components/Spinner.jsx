@@ -1,6 +1,6 @@
 import { PiSpinner } from "react-icons/pi";
 
-function Spinner() {
+export function Spinner() {
   return (
     <div className="flex-center flex-col">
       <PiSpinner size={50} className="animate-spin text-[#f38e82]" />
@@ -8,5 +8,3 @@ function Spinner() {
     </div>
   );
 }
-
-export default Spinner;

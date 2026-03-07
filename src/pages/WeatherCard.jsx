@@ -9,18 +9,19 @@ import { IoSettings, IoWaterSharp } from "react-icons/io5";
 import { GrPrevious } from "react-icons/gr";
 
 // created components
-import BottomNavBar from "../components/BottomNavBar";
+import { BottomNavBar } from "../components/BottomNavBar";
 import { WeatherContext } from "../context/WeatherContext";
-import ToggleTheme from "../components/ToggleTheme";
+import { ToggleTheme } from "../components/ToggleTheme";
 
-function WeatherCard() {
-  const { selectedWeather } = useContext(WeatherContext);
+export function WeatherCard() {
+  const { selectedWeather, clearSelectedWeather } = useContext(WeatherContext);
 
   const navigate = useNavigate();
 
-  if (!selectedWeather) return <p>Data not available</p>;
+  if (!selectedWeather)
+    return <p>Data not available. Please search for city</p>;
 
-  const weeklyData = selectedWeather.foreCast.list.filter((numDays) =>
+  const weeklyData = selectedWeather.forecast.list.filter((numDays) =>
     numDays.dt_txt.includes("12:00"),
   );
 
@@ -30,7 +31,10 @@ function WeatherCard() {
         <div className="mb-10 flex w-full items-center justify-between">
           <button
             className="cursor-pointer text-2xl"
-            onClick={() => navigate("/search")}
+            onClick={() => {
+              clearSelectedWeather();
+              navigate("/search");
+            }}
             aria-label="Go back"
           >
             <GrPrevious />
@@ -43,7 +47,7 @@ function WeatherCard() {
           </h1>
           <p>
             Chance of rain:{" "}
-            {Math.round(selectedWeather.foreCast.list[0].pop * 100)}%
+            {Math.round(selectedWeather.forecast.list[0].pop * 100)}%
           </p>
           <img
             className="mb-4 w-full"
@@ -59,7 +63,7 @@ function WeatherCard() {
             Today's Weather
           </h3>
           <div className="flex divide-y divide-gray-900 max-sm:flex-col max-sm:items-center sm:divide-x sm:divide-y-0 md:flex-row md:justify-between dark:divide-gray-700">
-            {selectedWeather.foreCast.list.slice(0, 3).map((weather) => (
+            {selectedWeather.forecast.list.slice(0, 3).map((weather) => (
               <div
                 key={weather.dt_txt}
                 className="flex-center w-full flex-col pr-25 max-sm:p-0"
@@ -148,7 +152,7 @@ function WeatherCard() {
                 <p>
                   Precipitation <br />
                   <span className="font-bold">
-                    {Math.round(selectedWeather.foreCast.list[0].pop * 100)} %
+                    {Math.round(selectedWeather.forecast.list[0].pop * 100)} %
                   </span>
                 </p>
               </div>
@@ -159,7 +163,7 @@ function WeatherCard() {
                   <br />
                   <span className="font-bold">
                     {Math.round(
-                      selectedWeather.foreCast.list[0].visibility / 100,
+                      selectedWeather.forecast.list[0].visibility / 100,
                     )}
                     k/m
                   </span>
@@ -173,5 +177,3 @@ function WeatherCard() {
     </section>
   );
 }
-
-export default WeatherCard;

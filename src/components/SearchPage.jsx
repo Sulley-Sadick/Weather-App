@@ -1,5 +1,5 @@
 // hooks
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 // in-built components
@@ -8,20 +8,35 @@ import { CiSearch } from "react-icons/ci";
 import { FaCloud } from "react-icons/fa";
 
 // created components
-import BottomNavBar from "./BottomNavBar";
+import { BottomNavBar } from "./BottomNavBar";
 import { WeatherContext } from "../context/WeatherContext";
-import ToggleTheme from "./ToggleTheme";
-import ErrorMessage from "./ErrorMessage";
-import Spinner from "./Spinner";
+import { ToggleTheme } from "./ToggleTheme";
+import { ErrorMessage } from "./ErrorMessage";
+import { Spinner } from "./Spinner";
+import { LocationContext } from "../context/locationContext";
 
-function SearchPage() {
+export function SearchPage() {
   const navigate = useNavigate();
 
   // call weatherProvider to get the values and functions they provide
-  const { weatherHistory, loading, error, city, resetWeatherData, searchCity } =
-    useContext(WeatherContext);
+  const {
+    weatherHistory,
+    loading,
+    error,
+    cityName,
+    clearWeatherHistory,
+    selectedWeather,
+    searchCity,
+  } = useContext(WeatherContext);
+
+  const { geolocationLoading, retry, geolocationError } =
+    useContext(LocationContext);
 
   const [inputValue, setInputValue] = useState("");
+
+  useEffect(() => {
+    if (!geolocationLoading && selectedWeather) navigate("/weathercard");
+  }, [navigate, selectedWeather, geolocationLoading]);
 
   const handleSubmit = async function (e) {
     // prevent browser from automatically submitting the form
@@ -75,17 +90,24 @@ function SearchPage() {
                 />
                 <CiSearch className="absolute top-3 left-5 text-2xl text-gray-500" />
               </div>
+              {geolocationLoading && <Spinner />}
               {loading && <Spinner />}
             </div>
           </form>
           {error && (
-            <ErrorMessage message={error} onRetry={() => searchCity(city)} />
+            <ErrorMessage
+              message={error}
+              onRetry={() => searchCity(cityName)}
+            />
+          )}
+          {geolocationError && (
+            <ErrorMessage onRetry={() => retry()} message={geolocationError} />
           )}
         </div>
         {!weatherHistory.length ? (
           ""
         ) : (
-          <div className="flex-center mt-10 max-sm:justify-between sm:justify-normal md:gap-61">
+          <div className="flex-center mt-10 max-sm:justify-between md:justify-normal md:gap-61">
             <h2 className="font-bold text-gray-900 dark:text-gray-100">
               Recent Searches
             </h2>
@@ -94,13 +116,12 @@ function SearchPage() {
               type="button"
               aria-label="clear weather history"
               className="cursor-pointer font-semibold hover:underline"
-              onClick={resetWeatherData}
+              onClick={clearWeatherHistory}
             >
               Clear history
             </button>
           </div>
         )}
-
         <div className="mt-5 flex flex-col max-sm:gap-5 sm:gap-20 md:flex-row">
           {weatherHistory.slice(0, 2).map((city) => (
             <div className="flex-center flex-col" key={city.current.id}>
@@ -116,7 +137,7 @@ function SearchPage() {
                 <div>
                   <img
                     src={`https://openweathermap.org/img/wn/${city.current.weather[0].icon}@2x.png`}
-                    alt=""
+                    alt={city.current.weather[0].main}
                   />
                 </div>
                 <div className="md:self-start">
@@ -136,7 +157,7 @@ function SearchPage() {
               Suggested Cities
             </h3>
           )}
-          <div className="mt-10 grid grid-cols-1 gap-4 divide-y sm:grid-cols-2">
+          <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2">
             {weatherHistory.slice(0, 5).map((city) => (
               <div key={city.current.id}>
                 <div className="flex gap-4">
@@ -152,7 +173,7 @@ function SearchPage() {
                     <div>
                       <img
                         src={`https://openweathermap.org/img/wn/${city.current.weather[0].icon}@2x.png`}
-                        alt=""
+                        alt={city.current.weather[0].main}
                       />
                     </div>
                   </button>
@@ -181,5 +202,3 @@ function SearchPage() {
     </section>
   );
 }
-
-export default SearchPage;

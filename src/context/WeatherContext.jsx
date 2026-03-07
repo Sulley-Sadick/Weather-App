@@ -1,48 +1,71 @@
 // hooks
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 // created components
-import weatherService from "../services/weatherService";
+import {
+  fetchWeatherAndForeCastByCity,
+  fetchWeatherAndForeCastByCoordinates,
+} from "../services/weatherService";
 import {
   useLocalStorageForSelectedWeather,
   useLocalStorageForWeatherHistory,
 } from "../customHooks/useLocalStorage";
-import useToggleTheme from "../customHooks/useToggleTheme";
+import { LocationContext } from "./locationContext";
 
 // create context
-export const WeatherContext = createContext();
+export const WeatherContext = createContext(null);
 
-const WeatherProvider = ({ children }) => {
-  const [weatherHistory, setWeatherHistory] = useState(
-    () => JSON.parse(localStorage.getItem("weatherHistory")) || [],
+export const WeatherProvider = ({ children }) => {
+  const [weatherHistory, setWeatherHistory] = useState(() =>
+    JSON.parse(localStorage.getItem("weatherHistory") || "[]"),
   );
   const [selectedWeather, setSelectedWeather] = useState(
     () => JSON.parse(localStorage.getItem("selectedWeather")) || null,
   );
-  const [theme, setTheme] = useState(
-    () => JSON.parse(localStorage.getItem("theme")) || false,
-  );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [city, setCity] = useState("");
+
+  const { coordinates } = useContext(LocationContext);
+
+  useEffect(() => {
+    if (!coordinates) return;
+
+    const fetchWeatherFromCoordinates = async () => {
+      try {
+        const data = await fetchWeatherAndForeCastByCoordinates(
+          coordinates.latitude,
+          coordinates.longitude,
+        );
+
+        const [current, forecast] = data;
+
+        const weatherObject = { current, forecast };
+
+        setWeatherHistory((prev) => {
+          const exist = prev.some(
+            (item) => item.current.id === weatherObject.current.id,
+          );
+
+          if (exist) return prev;
+
+          return [...prev, weatherObject];
+        });
+
+        setSelectedWeather(weatherObject);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchWeatherFromCoordinates();
+  }, [coordinates]);
 
   // store weatherHistory into localStorage
   useLocalStorageForWeatherHistory(weatherHistory);
 
   // store selectedWeather into localStorage
   useLocalStorageForSelectedWeather(selectedWeather);
-
-  // store theme in the localStorage
-  useToggleTheme(theme);
-
-  // change theme
-  const changeTheme = () => setTheme(() => !theme);
-
-  // add dark class to body when theme is true
-  useEffect(() => {
-    if (theme) document.documentElement.classList.add("dark");
-    else document.documentElement.classList.remove("dark");
-  }, [theme]);
 
   useEffect(() => {
     if (!city) return;
@@ -54,8 +77,16 @@ const WeatherProvider = ({ children }) => {
     return () => clearInterval(interval);
   }, [city]);
 
-  // clear states
-  const resetWeatherData = () => setWeatherHistory([]);
+  // clear weatherHistory
+  const clearWeatherHistory = () => {
+    localStorage.removeItem("weatherHistory");
+    setWeatherHistory([]);
+  };
+
+  const clearSelectedWeather = () => {
+    setSelectedWeather(null);
+    localStorage.removeItem("selectedWeather");
+  };
 
   const searchCity = async function (city) {
     try {
@@ -69,12 +100,9 @@ const WeatherProvider = ({ children }) => {
       setCity(city);
 
       // fetch data
-      const [data, foreCastData] = await weatherService(city);
+      const [current, forecast] = await fetchWeatherAndForeCastByCity(city);
 
-      const weatherObject = {
-        current: data,
-        foreCast: foreCastData,
-      };
+      const weatherObject = { current, forecast };
 
       // weatherHistory
       setWeatherHistory((prev) => {
@@ -103,20 +131,17 @@ const WeatherProvider = ({ children }) => {
   return (
     <WeatherContext.Provider
       value={{
-        loading,
         weatherHistory,
         selectedWeather,
-        error,
+        clearWeatherHistory,
+        clearSelectedWeather,
         searchCity,
-        resetWeatherData,
-        theme,
-        changeTheme,
         city,
+        loading,
+        error,
       }}
     >
       {children}
     </WeatherContext.Provider>
   );
 };
-
-export default WeatherProvider;

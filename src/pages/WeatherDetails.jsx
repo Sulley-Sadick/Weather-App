@@ -1,18 +1,18 @@
 import { useContext } from "react";
 
-import { WeatherContext } from "../context/WeatherContext";
 import { GrPrevious } from "react-icons/gr";
 import { useNavigate } from "react-router-dom";
 
-import BottomNavBar from "../components/BottomNavBar";
-import ToggleTheme from "../components/ToggleTheme";
+import { BottomNavBar } from "../components/BottomNavBar";
+import { ToggleTheme } from "../components/ToggleTheme";
+import { WeatherContext } from "../context/WeatherContext";
 
-function WeatherDetails() {
+export function WeatherDetails() {
   const navigate = useNavigate();
 
   const { selectedWeather } = useContext(WeatherContext);
 
-  if (!selectedWeather) return <p>Data not available</p>;
+  if (!selectedWeather) return <p>Data not available. Please search city.</p>;
 
   return (
     <section className="min-h-screen w-full dark:bg-gray-900 dark:text-gray-100">
@@ -37,7 +37,7 @@ function WeatherDetails() {
           </h1>
           <p>
             Chance of rain:{" "}
-            {Math.round(selectedWeather.foreCast.list[0].pop * 100)}%
+            {Math.round(selectedWeather.forecast.list[0].pop * 100)}%
           </p>
           <img
             src={`https://openweathermap.org/img/wn/${selectedWeather.current.weather[0].icon}@2x.png`}
@@ -79,7 +79,7 @@ function WeatherDetails() {
           <div className="box-container">
             <p className="mb-2">Chance of rain</p>
             <span className="text-2xl font-bold">
-              {selectedWeather.foreCast.list[0].pop * 100}%
+              {selectedWeather.forecast.list[0].pop * 100}%
             </span>
           </div>
           <div className="box-container">
@@ -105,5 +105,3 @@ function WeatherDetails() {
     </section>
   );
 }
-
-export default WeatherDetails;

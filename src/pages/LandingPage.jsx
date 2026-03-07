@@ -2,12 +2,12 @@
 import { useNavigate } from "react-router-dom";
 // in-built components
 import { GoArrowRight } from "react-icons/go";
-
-// created component
-import ToggleTheme from "../components/ToggleTheme";
 import { LuCloudSun } from "react-icons/lu";
 
-function LandingPage() {
+// created component
+import { ToggleTheme } from "../components/ToggleTheme";
+
+export function LandingPage() {
   const navigate = useNavigate();
 
   return (
@@ -41,5 +41,3 @@ function LandingPage() {
     </section>
   );
 }
-
-export default LandingPage;

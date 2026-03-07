@@ -2,10 +2,10 @@
 import { useContext } from "react";
 
 // created components
-import { WeatherContext } from "../context/WeatherContext";
+import { ThemeContext } from "../context/ThemeContext";
 
-function ToggleTheme() {
-  const { theme, changeTheme } = useContext(WeatherContext);
+export function ToggleTheme() {
+  const { theme, changeTheme } = useContext(ThemeContext);
 
   return (
     <div className="flex-center self-end">
@@ -26,5 +26,3 @@ function ToggleTheme() {
     </div>
   );
 }
-
-export default ToggleTheme;

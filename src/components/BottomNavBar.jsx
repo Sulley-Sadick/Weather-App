@@ -1,8 +1,7 @@
 import { FaCloudSun, FaListOl, FaMap } from "react-icons/fa";
-import { IoMdSettings } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 
-function BottomNavBar() {
+export function BottomNavBar() {
   const navigate = useNavigate();
   return (
     <nav className="flex-center fixed bottom-0 w-full justify-center gap-20 bg-[#f5f6f6] py-4 dark:bg-gray-800">
@@ -28,5 +27,3 @@ function BottomNavBar() {
     </nav>
   );
 }
-
-export default BottomNavBar;

@@ -1,7 +1,7 @@
 // hooks
 import { useNavigate } from "react-router-dom";
 
-function ErrorMessage({ message, onRetry }) {
+export function ErrorMessage({ message, onRetry }) {
   const navigate = useNavigate();
 
   const handleRetry = async () => {
@@ -27,5 +27,3 @@ function ErrorMessage({ message, onRetry }) {
     </div>
   );
 }
-
-export default ErrorMessage;
