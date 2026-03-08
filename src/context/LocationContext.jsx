@@ -1,12 +1,9 @@
-// hooks
-import { createContext } from "react";
-
-// creatd components
-import { useGeolocation } from "../customHooks/useGeolocation";
+import { createContext, useContext } from "react";
+import { useGeolocation } from "../hooks/useGeolocation";
 
 export const LocationContext = createContext(null);
 
-export function LocationProvider({ children }) {
+export const LocationProvider = function ({ children }) {
   const { coordinates, geolocationLoading, retry, geolocationError } =
     useGeolocation();
 
@@ -17,4 +14,13 @@ export function LocationProvider({ children }) {
       {children}
     </LocationContext.Provider>
   );
-}
+};
+
+export const useLocationContext = () => {
+  const context = useContext(LocationContext);
+
+  if (!context)
+    throw new Error("useLocation must be used within a  LocationProvider");
+
+  return context;
+};

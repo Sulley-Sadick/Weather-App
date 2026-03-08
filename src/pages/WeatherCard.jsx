@@ -1,25 +1,26 @@
-// hooks
-import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
-// in-built components
 import { PiThermometerSimpleBold } from "react-icons/pi";
 import { FaWind } from "react-icons/fa";
 import { IoSettings, IoWaterSharp } from "react-icons/io5";
 import { GrPrevious } from "react-icons/gr";
 
-// created components
 import { BottomNavBar } from "../components/BottomNavBar";
-import { WeatherContext } from "../context/WeatherContext";
+import { useWeatherContext } from "../context/WeatherContext";
 import { ToggleTheme } from "../components/ToggleTheme";
+import { LanguageSwitcher } from "../components/LanguageSwitcher";
+import { useLanguageContext } from "../context/LanguageContext";
 
 export function WeatherCard() {
-  const { selectedWeather, clearSelectedWeather } = useContext(WeatherContext);
+  const { selectedWeather, clearSelectedWeather } = useWeatherContext();
+  const {
+    value: { t },
+    value: { currentLanguage },
+  } = useLanguageContext();
 
   const navigate = useNavigate();
 
-  if (!selectedWeather)
-    return <p>Data not available. Please search for city</p>;
+  if (!selectedWeather) return <p>{t("weatherDataStatus.dataUnavailable")}</p>;
 
   const weeklyData = selectedWeather.forecast.list.filter((numDays) =>
     numDays.dt_txt.includes("12:00"),
@@ -28,25 +29,28 @@ export function WeatherCard() {
   return (
     <section className="min-h-screen w-full dark:bg-gray-900 dark:text-gray-100">
       <div className="flex-center mb-12 w-full flex-col p-5">
-        <div className="mb-10 flex w-full items-center justify-between">
+        <div className="flex-center mb-10 w-full justify-between">
           <button
             className="cursor-pointer text-2xl"
             onClick={() => {
               clearSelectedWeather();
               navigate("/search");
             }}
-            aria-label="Go back"
+            aria-label="Go back to search page"
           >
             <GrPrevious />
           </button>
-          <ToggleTheme />
+          <div>
+            <ToggleTheme />
+            <LanguageSwitcher />
+          </div>
         </div>
         <div className="flex-center flex-col">
           <h1 className="mb-2 text-3xl font-bold">
-            {selectedWeather.current.name}
+            {t("location.city", { city: selectedWeather.current.name })}
           </h1>
           <p>
-            Chance of rain:{" "}
+            {t("similarLabels.chanceOfRain")}
             {Math.round(selectedWeather.forecast.list[0].pop * 100)}%
           </p>
           <img
@@ -60,7 +64,7 @@ export function WeatherCard() {
         </div>
         <div className="w-full rounded-md bg-gray-300 p-4 shadow-md md:w-[80%] dark:bg-gray-800">
           <h3 className="my-4 font-bold max-sm:text-center sm:text-left">
-            Today's Weather
+            {t("weatherCard.titles.todaysWeather")}
           </h3>
           <div className="flex divide-y divide-gray-900 max-sm:flex-col max-sm:items-center sm:divide-x sm:divide-y-0 md:flex-row md:justify-between dark:divide-gray-700">
             {selectedWeather.forecast.list.slice(0, 3).map((weather) => (
@@ -69,7 +73,8 @@ export function WeatherCard() {
                 className="flex-center w-full flex-col pr-25 max-sm:p-0"
               >
                 <h2 className="text-center font-bold">
-                  {weather.dt_txt.split(" ")[1].slice(0, -3)} Hours
+                  {weather.dt_txt.split(" ")[1].slice(0, -3)}{" "}
+                  {t("weatherCard.forecast.dayHours")}
                 </h2>
                 <img
                   className="w-[50%]"
@@ -85,7 +90,7 @@ export function WeatherCard() {
         </div>
         <div className="mt-20 w-full rounded-lg bg-gray-300 p-6 shadow-md md:w-[80%] dark:bg-gray-800">
           <h3 className="my-2 font-bold max-sm:text-center sm:text-left">
-            Weekly outlook
+            {t("weatherCard.titles.weeklyOutlook")}
           </h3>
           <div className="w-full divide-y">
             {weeklyData.map((weather, index) => (
@@ -93,16 +98,23 @@ export function WeatherCard() {
                 <div className="flex-center justify-between max-sm:flex-col md:flex-row">
                   <p className="font-medium">
                     {index === 0
-                      ? "Today"
-                      : new Date(weather.dt_txt).toLocaleString("en-Us", {
-                          weekday: "short",
-                        })}
+                      ? t("weatherCard.forecast.today")
+                      : new Date(weather.dt_txt).toLocaleString(
+                          currentLanguage,
+                          {
+                            weekday: "short",
+                          },
+                        )}
                   </p>
                   <img
                     src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
                     alt={weather.weather[0].main}
                   />
-                  <span className="font-bold">{weather.weather[0].main}</span>
+                  <span className="font-bold">
+                    {t("weatherCard.labels.climate", {
+                      climate: weather.weather[0].main,
+                    })}
+                  </span>
                   <p className="font-semibold">
                     {Math.round(weather.main.temp_max)} /
                     <span className="font-normal">
@@ -116,21 +128,23 @@ export function WeatherCard() {
         </div>
         <div className="mt-20 w-full rounded-md bg-gray-300 shadow-md max-sm:p-4 sm:p-6 md:w-[80%] dark:bg-gray-800">
           <div className="flex items-center justify-between">
-            <h3 className="font-bold">Weather details</h3>
+            <h3 className="font-bold">
+              {t("weatherCard.titles.weatherDetails")}
+            </h3>
             <button
               type="button"
               className="cursor-pointer rounded-full bg-blue-500 py-2 font-bold text-white transition-all duration-400 hover:bg-blue-400 max-sm:px-2 sm:px-4"
               onClick={() => navigate("/details")}
             >
-              More info
+              {t("weatherCard.buttons.moreInfo")}
             </button>
           </div>
           <div className="flex-center my-5 max-sm:flex-col sm:flex-row">
             <div className="flex-center w-full flex-col">
-              <div className="gap- mt-4 flex">
+              <div className="mt-4 flex">
                 <PiThermometerSimpleBold className="text-3xl" />
                 <p>
-                  Feels like <br />
+                  {t("similarLabels.feelsLike")} <br />
                   <span className="font-bold">
                     {Math.round(selectedWeather.current.main.feels_like)}℃
                   </span>
@@ -139,7 +153,7 @@ export function WeatherCard() {
               <div className="mt-5 flex gap-2">
                 <FaWind className="text-3xl" />
                 <p>
-                  Breeze <br />
+                  {t("weatherCard.labels.breeze")} <br />
                   <span className="font-bold">
                     {selectedWeather.current.wind.speed} m/s
                   </span>
@@ -150,7 +164,8 @@ export function WeatherCard() {
               <div className="mb-5 flex gap-2">
                 <IoWaterSharp className="text-3xl" />
                 <p>
-                  Precipitation <br />
+                  {t("weatherCard.labels.precipitation")}
+                  <br />
                   <span className="font-bold">
                     {Math.round(selectedWeather.forecast.list[0].pop * 100)} %
                   </span>
@@ -159,7 +174,7 @@ export function WeatherCard() {
               <div className="-ml-3 flex gap-2">
                 <IoSettings className="text-3xl" />
                 <p>
-                  UV level
+                  {t("weatherCard.labels.uvLevel")}
                   <br />
                   <span className="font-bold">
                     {Math.round(

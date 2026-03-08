@@ -1,24 +1,26 @@
-// hooks
-import { useState, useContext, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-// in-built components
 import { GoArrowLeft } from "react-icons/go";
 import { CiSearch } from "react-icons/ci";
 import { FaCloud } from "react-icons/fa";
 
-// created components
-import { BottomNavBar } from "./BottomNavBar";
-import { WeatherContext } from "../context/WeatherContext";
-import { ToggleTheme } from "./ToggleTheme";
-import { ErrorMessage } from "./ErrorMessage";
-import { Spinner } from "./Spinner";
-import { LocationContext } from "../context/LocationContext";
+import { BottomNavBar } from "../components/BottomNavBar";
+import { useWeatherContext } from "../context/WeatherContext";
+import { ToggleTheme } from "../components/ToggleTheme";
+import { ErrorMessage } from "../components/ErrorMessage";
+import { Spinner } from "../components/Spinner";
+import { useLocationContext } from "../context/LocationContext";
+import { LanguageSwitcher } from "../components/LanguageSwitcher";
+import { useLanguageContext } from "../context/LanguageContext";
 
 export function SearchPage() {
   const navigate = useNavigate();
 
-  // call weatherProvider to get the values and functions they provide
+  const {
+    value: { t },
+  } = useLanguageContext();
+
   const {
     weatherHistory,
     loading,
@@ -27,10 +29,9 @@ export function SearchPage() {
     clearWeatherHistory,
     selectedWeather,
     searchCity,
-  } = useContext(WeatherContext);
+  } = useWeatherContext();
 
-  const { geolocationLoading, retry, geolocationError } =
-    useContext(LocationContext);
+  const { geolocationLoading, retry, geolocationError } = useLocationContext();
 
   const [inputValue, setInputValue] = useState("");
 
@@ -70,19 +71,22 @@ export function SearchPage() {
           >
             <GoArrowLeft />
           </button>
-          <ToggleTheme />
+          <div>
+            <ToggleTheme />
+            <LanguageSwitcher />
+          </div>
         </div>
         <div>
           <form className="mt-4 mb-6 flex flex-col" onSubmit={handleSubmit}>
             <label htmlFor="search" className="text-4xl font-bold">
-              Search
+              {t("search.title")}
             </label>
             <div className="flex-center gap-20">
-              <div className="relative my-4 rounded-full p-2 shadow-[5px_5px_20px_rgba(0,0,0,0.2)] lg:max-w-[30%]">
+              <div className="relative my-4 w-full rounded-full p-2 shadow-[5px_5px_20px_rgba(0,0,0,0.2)] sm:max-w-[50%]">
                 <input
                   className="flex-center w-full rounded-md pt-0.5 pr-2 pl-10 font-medium text-gray-800 shadow-2xl outline-none focus:rounded-md dark:bg-gray-800 dark:text-gray-100"
                   type="search"
-                  placeholder="Enter city name"
+                  placeholder={t("search.placeholder")}
                   name="search"
                   id="search"
                   value={inputValue}
@@ -109,16 +113,16 @@ export function SearchPage() {
         ) : (
           <div className="flex-center mt-10 max-sm:justify-between md:justify-normal md:gap-61">
             <h2 className="font-bold text-gray-900 dark:text-gray-100">
-              Recent Searches
+              {t("search.recentSearches")}
             </h2>
 
             <button
               type="button"
-              aria-label="clear weather history"
+              aria-label={t("accessibility.clearWeatherHistory")}
               className="cursor-pointer font-semibold hover:underline"
               onClick={clearWeatherHistory}
             >
-              Clear history
+              {t("search.clearHistory")}
             </button>
           </div>
         )}
@@ -128,13 +132,13 @@ export function SearchPage() {
               <button
                 className="cursor-pointer"
                 role="search"
-                aria-label="search weather data"
+                aria-label={t("accessibility.searchWeather")}
                 onClick={async () => {
                   const success = await searchCity(city.current.name);
                   if (success) navigate("/weathercard");
                 }}
               >
-                <div>
+                <div className="flex justify-center">
                   <img
                     src={`https://openweathermap.org/img/wn/${city.current.weather[0].icon}@2x.png`}
                     alt={city.current.weather[0].main}
@@ -142,7 +146,7 @@ export function SearchPage() {
                 </div>
                 <div className="md:self-start">
                   <h3 className="mt-2 font-medium text-gray-900 dark:text-gray-100">
-                    Current weather in {city.current.name}
+                    {t("search.weatherInCity", { city: city.current.name })}
                   </h3>
                 </div>
               </button>
@@ -154,7 +158,7 @@ export function SearchPage() {
             ""
           ) : (
             <h3 className="mt-10 mb-5 font-bold text-gray-900 dark:text-gray-100">
-              Suggested Cities
+              {t("search.suggestedCities")}
             </h3>
           )}
           <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -164,6 +168,7 @@ export function SearchPage() {
                   <button
                     role="button"
                     tabIndex={0}
+                    aria-label={t("accessibility.searchWeather")}
                     className="cursor-pointer"
                     onClick={async () => {
                       const success = await searchCity(city.current.name);
@@ -179,16 +184,17 @@ export function SearchPage() {
                   </button>
                   <div>
                     <h3 className="text-gray-900 dark:text-gray-100">
-                      {city.current.name}
+                      {t("location.city", { city: city.current.name })}
                     </h3>
                     <p className="text-gray-800 dark:text-gray-100">
-                      Weather in {city.current.name}
+                      {t("search.weatherInCity", { city: city.current.name })}
                     </p>
                     <div className="flex-center gap-2">
                       <FaCloud />
                       <span> {Math.round(city.current.main.temp)}</span>
                       <span className="text-gray-400">
-                        Humidity: {Math.round(city.current.main.humidity)}%
+                        {t("weather.humidity")}:{" "}
+                        {Math.round(city.current.main.humidity)}%
                       </span>
                     </div>
                   </div>

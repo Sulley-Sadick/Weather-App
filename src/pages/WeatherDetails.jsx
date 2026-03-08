@@ -1,18 +1,21 @@
-import { useContext } from "react";
-
 import { GrPrevious } from "react-icons/gr";
 import { useNavigate } from "react-router-dom";
 
 import { BottomNavBar } from "../components/BottomNavBar";
 import { ToggleTheme } from "../components/ToggleTheme";
-import { WeatherContext } from "../context/WeatherContext";
+import { useWeatherContext } from "../context/WeatherContext";
+import { LanguageSwitcher } from "../components/LanguageSwitcher";
+import { useLanguageContext } from "../context/LanguageContext";
 
 export function WeatherDetails() {
   const navigate = useNavigate();
+  const {
+    value: { t },
+  } = useLanguageContext();
 
-  const { selectedWeather } = useContext(WeatherContext);
+  const { selectedWeather } = useWeatherContext();
 
-  if (!selectedWeather) return <p>Data not available. Please search city.</p>;
+  if (!selectedWeather) return <p>{t("weatherDataStatus.dataUnavailable")}</p>;
 
   return (
     <section className="min-h-screen w-full dark:bg-gray-900 dark:text-gray-100">
@@ -20,23 +23,26 @@ export function WeatherDetails() {
         <div className="flex-center w-full justify-between">
           <button
             type="button"
-            aria-label="Go back"
+            aria-label="Go back to weather card"
             className="ml-2 flex cursor-pointer text-2xl"
             onClick={() => navigate("/weathercard")}
           >
             <GrPrevious />
           </button>
-          <ToggleTheme />
+          <div>
+            <ToggleTheme />
+            <LanguageSwitcher />
+          </div>
         </div>
         <h2 className="mt-10 flex text-[1rem] font-black sm:text-2xl">
-          Current Weather
+          {t("weatherDetails.title")}
         </h2>
         <div className="flex-center mt-8 flex-col">
           <h1 className="mb-4 text-4xl font-black">
             {selectedWeather.current.name}
           </h1>
           <p>
-            Chance of rain:{" "}
+            {t("similarLabels.chanceOfRain")}:{" "}
             {Math.round(selectedWeather.forecast.list[0].pop * 100)}%
           </p>
           <img
@@ -49,47 +55,47 @@ export function WeatherDetails() {
         </div>
         <div className="mt-15 grid grid-cols-2 gap-4">
           <div className="box-container">
-            <p className="mb-2">UV index</p>
+            <p className="mb-2">{t("weatherDetails.labels.uvIndex")}</p>
             <span className="text-2xl font-bold">N/A</span>
           </div>
           <div className="box-container">
-            <p className="mb-2">Wind Speed</p>
+            <p className="mb-2">{t("weatherDetails.labels.windSpeed")}</p>
             <span className="text-2xl font-bold">
               {Math.round(selectedWeather.current.wind.speed)}m/s
             </span>
           </div>
           <div className="box-container">
-            <p className="mb-2">Humidity</p>
+            <p className="mb-2">{t("weather.humidity")}</p>
             <span className="text-2xl font-bold">
               {selectedWeather.current.main.humidity}%
             </span>
           </div>
           <div className="box-container">
-            <p className="mb-2">Visibility</p>
+            <p className="mb-2">{t("weatherDetails.labels.visibility")}</p>
             <span className="text-2xl font-bold">
               {selectedWeather.current.visibility / 1000}k/m
             </span>
           </div>
           <div className="box-container">
-            <p className="mb-2">Feels like</p>
+            <p className="mb-2">{t("similarLabels.feelsLike")}</p>
             <span className="text-2xl font-bold">
               {Math.round(selectedWeather.current.main.feels_like)}℃
             </span>
           </div>
           <div className="box-container">
-            <p className="mb-2">Chance of rain</p>
+            <p className="mb-2">{t("similarLabels.chanceOfRain")}</p>
             <span className="text-2xl font-bold">
               {selectedWeather.forecast.list[0].pop * 100}%
             </span>
           </div>
           <div className="box-container">
-            <p className="mb-2">Pressure</p>
+            <p className="mb-2">{t("weatherDetails.labels.pressure")}</p>
             <span className="text-2xl font-bold">
               {selectedWeather.current.main.pressure} hPa
             </span>
           </div>
           <div className="box-container">
-            <p className="mb-2">Sunset</p>
+            <p className="mb-2">{t("weatherDetails.labels.sunset")}</p>
             <span className="text-2xl font-bold">
               {new Date(
                 selectedWeather.current.sys.sunset * 1000,

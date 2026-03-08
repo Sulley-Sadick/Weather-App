@@ -1,16 +1,20 @@
-// hooks
-import { useContext } from "react";
-
-// created components
-import { ThemeContext } from "../context/ThemeContext";
+import { useLanguageContext } from "../context/LanguageContext";
+import { useThemeContext } from "../context/ThemeContext";
 
 export function ToggleTheme() {
-  const { theme, changeTheme } = useContext(ThemeContext);
+  const { theme, changeTheme } = useThemeContext();
+  const {
+    value: { t },
+  } = useLanguageContext();
 
   return (
     <div className="flex-center self-end">
       <p className="font-bold text-gray-800 dark:text-gray-100">
-        View {!theme ? "dark" : "white"} theme
+        {t("buttons.toggleTheme.view")}{" "}
+        {!theme
+          ? t("buttons.toggleTheme.dark")
+          : t("buttons.toggleTheme.white")}{" "}
+        {t("buttons.toggleTheme.theme")}
       </p>
       <button
         type="button"

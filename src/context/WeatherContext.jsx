@@ -1,7 +1,5 @@
-// hooks
 import { createContext, useContext, useEffect, useState } from "react";
 
-// created components
 import {
   fetchWeatherAndForeCastByCity,
   fetchWeatherAndForeCastByCoordinates,
@@ -9,8 +7,9 @@ import {
 import {
   useLocalStorageForSelectedWeather,
   useLocalStorageForWeatherHistory,
-} from "../customHooks/useLocalStorage";
-import { LocationContext } from "./LocationContext";
+} from "../hooks/useLocalStorage";
+import { useLocationContext } from "./LocationContext";
+import { REFRESH_INTERVAL_MS } from "../../config";
 
 // create context
 export const WeatherContext = createContext(null);
@@ -26,7 +25,7 @@ export const WeatherProvider = ({ children }) => {
   const [error, setError] = useState(null);
   const [city, setCity] = useState("");
 
-  const { coordinates } = useContext(LocationContext);
+  const { coordinates } = useLocationContext();
 
   useEffect(() => {
     if (!coordinates) return;
@@ -54,7 +53,7 @@ export const WeatherProvider = ({ children }) => {
 
         setSelectedWeather(weatherObject);
       } catch (err) {
-        console.error(err);
+        setError(err.message);
       }
     };
 
@@ -66,16 +65,6 @@ export const WeatherProvider = ({ children }) => {
 
   // store selectedWeather into localStorage
   useLocalStorageForSelectedWeather(selectedWeather);
-
-  useEffect(() => {
-    if (!city) return;
-
-    const interval = setInterval(async () => {
-      await searchCity(city);
-    }, 300000);
-
-    return () => clearInterval(interval);
-  }, [city]);
 
   // clear weatherHistory
   const clearWeatherHistory = () => {
@@ -128,6 +117,17 @@ export const WeatherProvider = ({ children }) => {
     }
   };
 
+  // run after every 3minutes to update weather data
+  useEffect(() => {
+    if (!city) return;
+
+    const interval = setInterval(async () => {
+      await searchCity(city);
+    }, REFRESH_INTERVAL_MS);
+
+    return () => clearInterval(interval);
+  }, [city]);
+
   return (
     <WeatherContext.Provider
       value={{
@@ -144,4 +144,12 @@ export const WeatherProvider = ({ children }) => {
       {children}
     </WeatherContext.Provider>
   );
+};
+
+export const useWeatherContext = function () {
+  const context = useContext(WeatherContext);
+
+  if (!context)
+    throw new Error("weatherContext must be within Weather Provider");
+  return context;
 };

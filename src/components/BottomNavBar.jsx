@@ -1,4 +1,4 @@
-import { FaCloudSun, FaListOl, FaMap } from "react-icons/fa";
+import { FaCloudSun, FaListOl } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 export function BottomNavBar() {
@@ -20,9 +20,6 @@ export function BottomNavBar() {
         onClick={() => navigate("/search")}
       >
         <FaListOl className="icon-size" />
-      </button>
-      <button type="button" className="cursor-pointer" aria-label="map">
-        <FaMap className="icon-size" />
       </button>
     </nav>
   );
