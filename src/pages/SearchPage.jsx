@@ -5,7 +5,6 @@ import { GoArrowLeft } from "react-icons/go";
 import { CiSearch } from "react-icons/ci";
 import { FaCloud } from "react-icons/fa";
 
-import { BottomNavBar } from "../components/BottomNavBar";
 import { useWeatherContext } from "../context/WeatherContext";
 import { ToggleTheme } from "../components/ToggleTheme";
 import { ErrorMessage } from "../components/ErrorMessage";
@@ -60,7 +59,7 @@ export function SearchPage() {
   };
 
   return (
-    <section className="mb-12 min-h-screen w-full bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-100">
+    <section className="min-h-screen w-full bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-100">
       <div className="p-6">
         <div className="flex-center justify-between">
           <button
@@ -126,7 +125,7 @@ export function SearchPage() {
             </button>
           </div>
         )}
-        <div className="mt-5 flex flex-col max-sm:gap-5 sm:gap-20 md:flex-row">
+        <div className="mt-5 flex flex-col max-sm:gap-5 sm:gap-20 md:flex-row md:gap-60">
           {weatherHistory.slice(0, 2).map((city) => (
             <div className="flex-center flex-col" key={city.current.id}>
               <button
@@ -193,7 +192,7 @@ export function SearchPage() {
                       <FaCloud />
                       <span> {Math.round(city.current.main.temp)}</span>
                       <span className="text-gray-400">
-                        {t("weather.humidity")}:{" "}
+                        {t("weather.humidity")}:
                         {Math.round(city.current.main.humidity)}%
                       </span>
                     </div>
@@ -204,7 +203,6 @@ export function SearchPage() {
           </div>
         </div>
       </div>
-      <BottomNavBar />
     </section>
   );
 }

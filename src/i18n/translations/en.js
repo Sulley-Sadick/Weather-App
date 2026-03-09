@@ -60,7 +60,15 @@ export const en = {
     wind: "Wind",
     temperature: "Temperature",
   },
-
+  weatherConditions: {
+    Clear: "Clear",
+    Clouds: "Cloudy",
+    Rain: "Rain",
+    Snow: "Snow",
+    Thunderstorm: "Thunderstorm",
+    Drizzle: "Drizzle",
+    Mist: "Mist",
+  },
   buttons: {
     toggleTheme: {
       dark: "dark",

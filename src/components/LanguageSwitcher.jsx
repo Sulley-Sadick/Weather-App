@@ -20,7 +20,7 @@ export function LanguageSwitcher() {
         {t("buttons.selectLanguage")}
       </label>
       <select
-        className="cursor-pointer rounded-md p-2 text-gray-900 dark:text-gray-100"
+        className="animate-pulse cursor-pointer rounded-md border p-2 text-gray-900 dark:text-gray-100"
         onChange={handleChange}
         name="Language"
         value={currentLanguage}

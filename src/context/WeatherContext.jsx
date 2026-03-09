@@ -27,6 +27,16 @@ export const WeatherProvider = ({ children }) => {
 
   const { coordinates } = useLocationContext();
 
+  const isDuplicate = (history, weatherObject) => {
+    const exist = history.some(
+      (h) => h.current.id === weatherObject.current.id,
+    );
+
+    if (exist) return history;
+
+    return [...history, weatherObject];
+  };
+
   useEffect(() => {
     if (!coordinates) return;
 
@@ -41,15 +51,9 @@ export const WeatherProvider = ({ children }) => {
 
         const weatherObject = { current, forecast };
 
-        setWeatherHistory((prev) => {
-          const exist = prev.some(
-            (item) => item.current.id === weatherObject.current.id,
-          );
-
-          if (exist) return prev;
-
-          return [...prev, weatherObject];
-        });
+        setWeatherHistory((prevHistory) =>
+          isDuplicate(prevHistory, weatherObject),
+        );
 
         setSelectedWeather(weatherObject);
       } catch (err) {
@@ -94,15 +98,9 @@ export const WeatherProvider = ({ children }) => {
       const weatherObject = { current, forecast };
 
       // weatherHistory
-      setWeatherHistory((prev) => {
-        const exist = prev.some(
-          (item) => item.current.id === weatherObject.current.id,
-        );
-
-        if (exist) return prev;
-
-        return [...prev, weatherObject];
-      });
+      setWeatherHistory((prevHistory) =>
+        isDuplicate(prevHistory, weatherObject),
+      );
 
       // selectedWeather
       setSelectedWeather(weatherObject);

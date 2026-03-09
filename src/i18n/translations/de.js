@@ -61,6 +61,16 @@ export const de = {
     temperature: "Temperatur",
   },
 
+  weatherConditions: {
+    Clear: "Klar",
+    Clouds: "Bewölkt",
+    Rain: "Regen",
+    Snow: "Schnee",
+    Thunderstorm: "Gewitter",
+    Drizzle: "Nieselregen",
+    Mist: "Nebel",
+  },
+
   buttons: {
     toggleTheme: {
       dark: "dunkel",

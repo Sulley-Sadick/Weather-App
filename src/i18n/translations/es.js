@@ -60,6 +60,15 @@ export const es = {
     wind: "Viento",
     temperature: "Temperatura",
   },
+  weatherConditions: {
+    Clear: "Despejado",
+    Clouds: "Nublado",
+    Rain: "Lluvia",
+    Snow: "Nieve",
+    Thunderstorm: "Tormenta",
+    Drizzle: "Llovizna",
+    Mist: "Niebla",
+  },
   buttons: {
     toggleTheme: {
       dark: "oscuro",

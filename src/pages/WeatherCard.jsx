@@ -27,7 +27,7 @@ export function WeatherCard() {
 
   return (
     <section className="min-h-screen w-full dark:bg-gray-900 dark:text-gray-100">
-      <div className="flex-center mb-12 w-full flex-col p-5">
+      <div className="flex-center w-full flex-col p-5">
         <div className="flex-center mb-10 w-full justify-between">
           <button
             className="cursor-pointer text-2xl"
@@ -110,9 +110,7 @@ export function WeatherCard() {
                     alt={weather.weather[0].main}
                   />
                   <span className="font-bold">
-                    {t("weatherCard.labels.climate", {
-                      climate: weather.weather[0].main,
-                    })}
+                    {t(`weatherConditions.${weather.weather[0].main}`)}
                   </span>
                   <p className="font-semibold">
                     {Math.round(weather.main.temp_max)} /
