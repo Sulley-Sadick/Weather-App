@@ -173,12 +173,7 @@ export function WeatherCard() {
                 <p>
                   {t("weatherCard.labels.uvLevel")}
                   <br />
-                  <span className="font-bold">
-                    {Math.round(
-                      selectedWeather.forecast.list[0].visibility / 100,
-                    )}
-                    k/m
-                  </span>
+                  <span className="font-bold">N/A</span>
                 </p>
               </div>
             </div>
