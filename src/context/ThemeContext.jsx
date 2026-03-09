@@ -25,7 +25,7 @@ export const useThemeContext = function () {
   const context = useContext(ThemeContext);
 
   if (!context)
-    throw new Error("useThemeContext must be used within Theme Provider");
+    throw new Error("useThemeContext must be within Theme Provider");
 
   return context;
 };

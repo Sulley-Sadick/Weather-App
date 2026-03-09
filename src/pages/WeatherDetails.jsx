@@ -2,8 +2,8 @@ import { GrPrevious } from "react-icons/gr";
 import { useNavigate } from "react-router-dom";
 
 import { ToggleTheme } from "../components/ToggleTheme";
-import { LanguageSwitcher } from "../components/LanguageSwitcher";
 import { useWeatherContext } from "../context/WeatherContext";
+import { LanguageSwitcher } from "../components/LanguageSwitcher";
 import { useLanguageContext } from "../context/LanguageContext";
 
 export function WeatherDetails() {
@@ -18,7 +18,7 @@ export function WeatherDetails() {
 
   return (
     <section className="min-h-screen w-full dark:bg-gray-900 dark:text-gray-100">
-      <div className="flex-center w-full flex-col justify-center p-6">
+      <div className="flex-center mb-10 w-full flex-col justify-center p-6">
         <div className="flex-center w-full justify-between">
           <button
             type="button"

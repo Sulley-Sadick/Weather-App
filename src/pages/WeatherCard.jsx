@@ -5,10 +5,10 @@ import { FaWind } from "react-icons/fa";
 import { IoSettings, IoWaterSharp } from "react-icons/io5";
 import { GrPrevious } from "react-icons/gr";
 
+import { useWeatherContext } from "../context/WeatherContext";
 import { ToggleTheme } from "../components/ToggleTheme";
 import { LanguageSwitcher } from "../components/LanguageSwitcher";
 import { useLanguageContext } from "../context/LanguageContext";
-import { useWeatherContext } from "../context/WeatherContext";
 
 export function WeatherCard() {
   const { selectedWeather, clearSelectedWeather } = useWeatherContext();
@@ -27,7 +27,7 @@ export function WeatherCard() {
 
   return (
     <section className="min-h-screen w-full dark:bg-gray-900 dark:text-gray-100">
-      <div className="flex-center w-full flex-col p-5">
+      <div className="flex-center mb-12 w-full flex-col p-5">
         <div className="flex-center mb-10 w-full justify-between">
           <button
             className="cursor-pointer text-2xl"
@@ -110,7 +110,9 @@ export function WeatherCard() {
                     alt={weather.weather[0].main}
                   />
                   <span className="font-bold">
-                    {t(`weatherConditions.${weather.weather[0].main}`)}
+                    {t("weatherCard.labels.climate", {
+                      climate: weather.weather[0].main,
+                    })}
                   </span>
                   <p className="font-semibold">
                     {Math.round(weather.main.temp_max)} /

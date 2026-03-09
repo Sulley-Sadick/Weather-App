@@ -1,8 +1,8 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
 import {
-  fetchWeatherAndForeCastFromCity,
-  fetchWeatherAndForeCastFromCoordinates,
+  fetchWeatherAndForeCastByCity,
+  fetchWeatherAndForeCastByCoordinates,
 } from "../services/weatherService";
 import {
   useLocalStorageForSelectedWeather,
@@ -15,7 +15,6 @@ import { REFRESH_INTERVAL_MS } from "../../config";
 export const WeatherContext = createContext(null);
 
 export const WeatherProvider = ({ children }) => {
-  const { coordinates, setGeolocationError } = useLocationContext();
   const [weatherHistory, setWeatherHistory] = useState(() =>
     JSON.parse(localStorage.getItem("weatherHistory") || "[]"),
   );
@@ -24,24 +23,16 @@ export const WeatherProvider = ({ children }) => {
   );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [cityName, setCityName] = useState("");
+  const [city, setCity] = useState("");
 
-  const isDuplicate = (history, weatherObject) => {
-    const exist = history.some(
-      (item) => item.current.id === weatherObject.current.id,
-    );
-
-    if (exist) return history;
-
-    return [...history, weatherObject];
-  };
+  const { coordinates } = useLocationContext();
 
   useEffect(() => {
     if (!coordinates) return;
 
     const fetchWeatherFromCoordinates = async () => {
       try {
-        const data = await fetchWeatherAndForeCastFromCoordinates(
+        const data = await fetchWeatherAndForeCastByCoordinates(
           coordinates.latitude,
           coordinates.longitude,
         );
@@ -50,9 +41,15 @@ export const WeatherProvider = ({ children }) => {
 
         const weatherObject = { current, forecast };
 
-        setWeatherHistory((prevHistory) =>
-          isDuplicate(prevHistory, weatherObject),
-        );
+        setWeatherHistory((prev) => {
+          const exist = prev.some(
+            (item) => item.current.id === weatherObject.current.id,
+          );
+
+          if (exist) return prev;
+
+          return [...prev, weatherObject];
+        });
 
         setSelectedWeather(weatherObject);
       } catch (err) {
@@ -76,7 +73,6 @@ export const WeatherProvider = ({ children }) => {
   };
 
   const clearSelectedWeather = () => {
-    setGeolocationError(null);
     setSelectedWeather(null);
     localStorage.removeItem("selectedWeather");
   };
@@ -90,17 +86,23 @@ export const WeatherProvider = ({ children }) => {
       setError(null);
 
       // update city state
-      setCityName(city);
+      setCity(city);
 
       // fetch data
-      const [current, forecast] = await fetchWeatherAndForeCastFromCity(city);
+      const [current, forecast] = await fetchWeatherAndForeCastByCity(city);
 
       const weatherObject = { current, forecast };
 
       // weatherHistory
-      setWeatherHistory((prevHistory) =>
-        isDuplicate(prevHistory, weatherObject),
-      );
+      setWeatherHistory((prev) => {
+        const exist = prev.some(
+          (item) => item.current.id === weatherObject.current.id,
+        );
+
+        if (exist) return prev;
+
+        return [...prev, weatherObject];
+      });
 
       // selectedWeather
       setSelectedWeather(weatherObject);
@@ -115,16 +117,16 @@ export const WeatherProvider = ({ children }) => {
     }
   };
 
-  // run after every 5minutes to update weather data
+  // run after every 3minutes to update weather data
   useEffect(() => {
-    if (!cityName) return;
+    if (!city) return;
 
     const interval = setInterval(async () => {
-      await searchCity(cityName);
+      await searchCity(city);
     }, REFRESH_INTERVAL_MS);
 
     return () => clearInterval(interval);
-  });
+  }, [city]);
 
   return (
     <WeatherContext.Provider
@@ -134,7 +136,7 @@ export const WeatherProvider = ({ children }) => {
         clearWeatherHistory,
         clearSelectedWeather,
         searchCity,
-        cityName,
+        city,
         loading,
         error,
       }}
@@ -148,6 +150,6 @@ export const useWeatherContext = function () {
   const context = useContext(WeatherContext);
 
   if (!context)
-    throw new Error("weatherContext must be used within Weather Provider");
+    throw new Error("weatherContext must be within Weather Provider");
   return context;
 };

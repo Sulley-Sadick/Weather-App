@@ -24,6 +24,7 @@ export const de = {
       breeze: "Brise",
       precipitation: "Niederschlag",
       uvLevel: "UV-Level",
+      climate: "{{climate}}",
     },
     forecast: {
       today: "Heute",
@@ -58,15 +59,6 @@ export const de = {
     humidity: "Luftfeuchtigkeit",
     wind: "Wind",
     temperature: "Temperatur",
-  },
-  weatherConditions: {
-    Clear: "Klar",
-    Clouds: "Bewölkt",
-    Rain: "Regen",
-    Snow: "Schnee",
-    Thunderstorm: "Gewitter",
-    Drizzle: "Nieselregen",
-    Mist: "Nebel",
   },
 
   buttons: {

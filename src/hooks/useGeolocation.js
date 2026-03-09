@@ -50,11 +50,5 @@ export function useGeolocation() {
     return () => clearTimeout(timer);
   }, [retryKey]);
 
-  return {
-    geolocationError,
-    setGeolocationError,
-    geolocationLoading,
-    retry,
-    coordinates,
-  };
+  return { geolocationError, geolocationLoading, retry, coordinates };
 }

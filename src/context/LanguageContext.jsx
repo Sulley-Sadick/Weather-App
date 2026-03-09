@@ -60,7 +60,7 @@ export const useLanguageContext = function () {
   const context = useContext(LanguageContext);
 
   if (!context)
-    throw new Error("useLanguageContext must be used within Language Provider");
+    throw new Error("useLanguageContext must be within Language Provider");
 
   return context;
 };
