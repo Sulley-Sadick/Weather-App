@@ -119,35 +119,21 @@ No more staring at a blank screen on refresh.
 
 ## 📁 Project Structure
 
-```
+````
 src/
 ├── assets/
-│   └── images/
-│
-├── components/
-│   ├── ToggleTheme.jsx       # Dark/light mode toggle
-│   ├── LanguageSwitcher.jsx  # i18n language selector
-│   ├── ErrorMessage.jsx      # User-facing error UI
-│   └── Spinner.jsx           # Loading indicator
-│
-├── pages/
-│   ├── LandingPage.jsx       # Entry point / search UI
-│   ├── WeatherCard.jsx       # Current weather display
-│   └── WeatherDetails.jsx    # Detailed metrics & forecast
-│
-├── context/
-│   ├── WeatherContext.jsx    # Weather data state
-│   ├── ThemeContext.jsx      # Theme management
-│   ├── LanguageContext.jsx   # Language management
-│   └── LocationContext.jsx   # Geolocation state
-│
+├── components/         # UI components (theme toggle, language switcher, spinner, errors)
+├── context/            # React context providers (weather, theme, language, location)
+├── hooks/              # Custom hooks (geolocation, local storage, theme)
+├── i18n/
+│   ├── index.js        # Translation registry
+│   └── [en, es, fr, de].js
+├── pages/              # Route-level views (landing, search, weather card & details)
 ├── services/
-│   ├── weatherService.js     # API logic & data mapping
-│   └── fetchers.js           # HTTP request helpers
-│
+│   ├── weatherService.js   # API logic & data mapping
+│   └── fetchers.js         # HTTP request helpers
 ├── App.jsx
 └── main.jsx
-```
 
 ---
 
@@ -168,7 +154,7 @@ Ensure you have the following installed:
 ```bash
 git clone https://github.com/sulley-sadick/weather-app.git
 cd weather-app
-```
+````
 
 **2. Install dependencies**
 
