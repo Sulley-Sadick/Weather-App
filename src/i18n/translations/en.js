@@ -51,7 +51,7 @@ export const en = {
     city: "{{city}}",
   },
   similarLabels: {
-    chanceOfRain: "Chance of rain ",
+    chanceOfRain: "Chance of rain",
     feelsLike: "Feels like",
   },
   weather: {

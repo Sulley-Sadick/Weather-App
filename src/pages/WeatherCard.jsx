@@ -49,7 +49,7 @@ export function WeatherCard() {
             {t("location.city", { city: selectedWeather.current.name })}
           </h1>
           <p>
-            {t("similarLabels.chanceOfRain")}
+            {t("similarLabels.chanceOfRain")}:{" "}
             {Math.round(selectedWeather.forecast.list[0].pop * 100)}%
           </p>
           <img
