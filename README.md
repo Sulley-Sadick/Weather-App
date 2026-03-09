@@ -1,46 +1,119 @@
-# React + Vite
+<div align="center">
 
-# 🌤️ WeatherDash — Weather Dashboard App
+# 🌤️ WeatherApp
 
-A responsive weather dashboard application built with **React** and **Tailwind CSS**, powered by the OpenWeatherMap API. This capstone project was built as part of the **ALX Frontend Engineering Program**.
+### A smart, real-time weather dashboard — beautifully designed, globally aware.
+
+[![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-Visit_App-4A90D9?style=for-the-badge)](https://weather-9fmidokaz-sadick-sulleys-projects.vercel.app/)
+[![React](https://img.shields.io/badge/React-Vite-61DAFB?style=for-the-badge&logo=react&logoColor=white)](https://vitejs.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.x-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+[![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
+
+<br/>
+
+> **ALX Frontend Engineering Program — Capstone Project**  
+> Built by [Sadick Sulley](https://github.com/sulley-sadick)
+
+<br/>
+
+![Landing Page](image-1.png)
+
+</div>
 
 ---
 
-## 🎯 Project Goal
+## 📖 Overview
 
-WeatherDash allows users to search for any city in the world and instantly get real-time weather data including current conditions, temperature, humidity, wind speed, and more — all presented in a clean, intuitive mobile-first interface.
+**WeatherApp** is a modern, responsive weather dashboard that gives users real-time weather information for any city in the world. Built with React (Vite) and Tailwind CSS, it integrates the **OpenWeatherMap API** and delivers a seamless experience with multi-language support, dark/light theming, and intelligent local storage persistence.
+
+Whether you're planning your morning commute or checking tomorrow's forecast across the globe — WeatherApp has you covered.
 
 ---
 
 ## ✨ Features
 
-### Core Features
+### 🌍 Real-Time City Search
 
-- 🔍 **City Search** — Search for any city worldwide and retrieve live weather data
-- 🌡️ **Current Weather** — View real-time temperature, weather condition, and feels-like temperature
-- 📍 **Location Details** — Displays city name, country, and local time
-- 💧 **Weather Stats** — Detailed stats including humidity, wind speed, visibility, and atmospheric pressure
-- 🌅 **Sunrise & Sunset** — View daily sunrise and sunset times for any city
-- 📅 **Weather Forecast** — Multi-day weather forecast with daily high/low temperatures
+Search any city worldwide and get instant, accurate weather data powered by the OpenWeatherMap API.
 
-### UI/UX Features
+### 📍 Automatic Location Detection
 
-- ✅ **Success State** — Clear confirmation when weather data is successfully retrieved
-- ❌ **Error Handling** — Friendly error message when a city is not found or the request fails
-- ⏳ **Loading State** — Visual feedback while weather data is being fetched
-- 📱 **Mobile-First Design** — Fully responsive layout optimized for mobile devices
-- 🧭 **Bottom Navigation Bar** — Easy navigation between Dashboard, Forecast, Map, and Settings screens
+Uses the browser's **Geolocation API** to detect your location and auto-load local weather on launch. Falls back gracefully if permission is denied.
+
+### 🌡️ Current Weather at a Glance
+
+- Temperature & "feels like"
+- Weather condition with icon
+- City name & local time
+
+### 💧 Detailed Weather Metrics
+
+| Metric        | Metric                  |
+| ------------- | ----------------------- |
+| 💧 Humidity   | 🌬️ Wind Speed           |
+| 👁️ Visibility | 🔵 Atmospheric Pressure |
+
+### 🌅 Sunrise & Sunset Times
+
+Accurate sunrise and sunset times based on the city's geographic coordinates.
+
+### 📅 5-Day Forecast
+
+View upcoming weather trends with daily temperature ranges, condition icons, and forecasted patterns.
+
+### 🌙 Dark / Light Mode
+
+Toggle between themes with a single click. Your preference is remembered across sessions.
+
+### 🌐 Internationalization (i18n)
+
+Dynamically switch the interface language. Language preference persists via Local Storage.
+
+### 💾 Local Storage Persistence
+
+The app remembers your:
+
+- Selected theme
+- Selected language
+- Most recently fetched weather data
+
+No more staring at a blank screen on refresh.
+
+### ⏳ Loading & Error States
+
+- Visual spinner during data fetching
+- Friendly, descriptive error messages for failed searches, API errors, and network issues
+
+---
+
+## 🖼️ Screenshots
+
+<table>
+  <tr>
+    <td align="center"><strong>🏠 Landing Page</strong><br/><img src="src/assets/image-1.png" alt="Landing Page" width="400"/></td>
+    <td align="center"><strong>📊 Weather Details</strong><br/><img src="src/assets/image-5.png" alt="Weather Card" width="400"/></td>
+    <td align="center"><strong>📊 Weather Card</strong><br/><img src="/src/assets/image-2.png" alt="Weather Details" width="400"/></td>
+  </tr>
+  </tr>
+  <tr>
+    <td align="center"><strong>🌙 Dark Mode</strong><br/><img src="/src/assets/image-3.png" alt="Dark Mode" width="400"/></td>
+    <td align="center"><strong>📱 Mobile View</strong><br/><img src="/src/assets/image-4.png" alt="Mobile View" width="400"/></td>
+  </tr>
+</table>
 
 ---
 
 ## 🛠️ Tech Stack
 
-| Technology         | Purpose                              |
-| ------------------ | ------------------------------------ |
-| React (Vite)       | Frontend framework                   |
-| Tailwind CSS       | Styling and responsive design        |
-| OpenWeatherMap API | Live weather data                    |
-| React Router       | Client-side navigation between pages |
+| Technology                | Purpose                                 |
+| ------------------------- | --------------------------------------- |
+| ⚛️ **React (Vite)**       | Frontend framework & fast build tooling |
+| 🎨 **Tailwind CSS**       | Utility-first responsive styling        |
+| 🔀 **React Router**       | Client-side routing                     |
+| 🌦️ **OpenWeatherMap API** | Live weather & forecast data            |
+| 💾 **Local Storage API**  | Persistent user preferences             |
+| 📍 **Geolocation API**    | Auto-detect user location               |
+| ⚡ **JavaScript ES6+**    | Application logic                       |
 
 ---
 
@@ -48,17 +121,32 @@ WeatherDash allows users to search for any city in the world and instantly get r
 
 ```
 src/
-├── assets/          # Icons and images
-├── components/      # Reusable UI components
-│   ├── BottomNavBar.jsx
-│   ├── SearchBar.jsx
-│   └── WeatherCard.jsx
-├── pages/           # Full page-level components
-│   ├── LandingPage.jsx
-│   ├── Dashboard.jsx
-│   └── WeatherDetails.jsx
-└── services/        # API logic
-    └── weatherService.js
+├── assets/
+│   └── images/
+│
+├── components/
+│   ├── ToggleTheme.jsx       # Dark/light mode toggle
+│   ├── LanguageSwitcher.jsx  # i18n language selector
+│   ├── ErrorMessage.jsx      # User-facing error UI
+│   └── Spinner.jsx           # Loading indicator
+│
+├── pages/
+│   ├── LandingPage.jsx       # Entry point / search UI
+│   ├── WeatherCard.jsx       # Current weather display
+│   └── WeatherDetails.jsx    # Detailed metrics & forecast
+│
+├── context/
+│   ├── WeatherContext.jsx    # Weather data state
+│   ├── ThemeContext.jsx      # Theme management
+│   ├── LanguageContext.jsx   # Language management
+│   └── LocationContext.jsx   # Geolocation state
+│
+├── services/
+│   ├── weatherService.js     # API logic & data mapping
+│   └── fetchers.js           # HTTP request helpers
+│
+├── App.jsx
+└── main.jsx
 ```
 
 ---
@@ -67,74 +155,91 @@ src/
 
 ### Prerequisites
 
-- Node.js (v18 or higher)
-- A free API key from [OpenWeatherMap](https://openweathermap.org/api)
+Ensure you have the following installed:
+
+- **Node.js** v18+
+- **npm**
+- A free **OpenWeatherMap API key** → [Get one here](https://openweathermap.org/api)
 
 ### Installation
 
-1. Clone the repository
+**1. Clone the repository**
 
 ```bash
-git clone https://github.com/your-username/weather-app.git
+git clone https://github.com/sulley-sadick/weather-app.git
 cd weather-app
 ```
 
-2. Install dependencies
+**2. Install dependencies**
 
 ```bash
 npm install
 ```
 
-3. Create a `.env` file in the root directory and add your API key
+**3. Configure environment variables**
 
-```
+Create a `.env` file in the root directory:
+
+```env
 VITE_WEATHER_API_KEY=your_api_key_here
 ```
 
-4. Start the development server
+**4. Start the development server**
 
 ```bash
 npm run dev
 ```
 
-5. Open your browser and visit `http://localhost:5173`
+**5. Open in your browser**
+
+```
+http://localhost:5173
+```
 
 ---
 
 ## 🌐 API Reference
 
-This app uses the [OpenWeatherMap API](https://openweathermap.org/api).
+WeatherApp uses the **OpenWeatherMap API** for all weather data.
 
-- **Current Weather endpoint:** `https://api.openweathermap.org/data/2.5/weather`
-- **Forecast endpoint:** `https://api.openweathermap.org/data/2.5/forecast`
+| Endpoint             | Usage                                       |
+| -------------------- | ------------------------------------------- |
+| `/data/2.5/weather`  | Current weather by city name or coordinates |
+| `/data/2.5/forecast` | 5-day / 3-hour forecast data                |
 
----
-
-## 📸 Screenshots
-
-> _(Add screenshots of your app here after building)_
+📄 Full documentation: [openweathermap.org/api](https://openweathermap.org/api)
 
 ---
 
-## 🔮 Future Improvements
+## 🔮 Roadmap
 
-- 🗺️ Interactive weather map view
-- 📌 Save favourite cities
-- 🌙 Dark/Light mode toggle
-- 📡 Auto-detect user's current location using Geolocation API
-- 🌐 Temperature unit toggle (°C / °F)
+Planned future improvements:
+
+- [ ] ⭐ Save and manage favourite cities
+- [ ] 📊 Advanced weather analytics & charts
+- [ ] 📍 Improved geolocation fallback strategies
+- [ ] ⚡ Offline caching with service workers
+- [ ] 🗺️ Interactive weather map integration
 
 ---
 
 ## 👨‍💻 Author
 
-Built by **[Your Name]** as part of the ALX Frontend Engineering Capstone Project.
+<div align="center">
 
-- GitHub: [@sulley-sadick](https://github.com/sulley-sadick)
-- LinkedIn: [your-linkedin](https://linkedin.com/in/your-linkedin)
+**Sadick Sulley**  
+_ALX Frontend Engineering Program — Capstone Project_
+
+[![GitHub](https://img.shields.io/badge/GitHub-sulley--sadick-181717?style=for-the-badge&logo=github)](https://github.com/sulley-sadick)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Sadick_Sulley-0A66C2?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/sadick-sulley)
+[![Live Demo](https://img.shields.io/badge/🌐-Live_Demo-4A90D9?style=for-the-badge)](https://weather-9fmidokaz-sadick-sulleys-projects.vercel.app/)
+
+</div>
 
 ---
 
-## 📄 License
+<div align="center">
 
-This project is open source and available under the [MIT License](LICENSE).
+_Built with ❤️ as part of the ALX Frontend Engineering Program_
+
+</div>
