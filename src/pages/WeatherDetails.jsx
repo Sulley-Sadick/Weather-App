@@ -1,7 +1,6 @@
 import { GrPrevious } from "react-icons/gr";
 import { useNavigate } from "react-router-dom";
 
-import { BottomNavBar } from "../components/BottomNavBar";
 import { ToggleTheme } from "../components/ToggleTheme";
 import { useWeatherContext } from "../context/WeatherContext";
 import { LanguageSwitcher } from "../components/LanguageSwitcher";
@@ -107,7 +106,6 @@ export function WeatherDetails() {
           </div>
         </div>
       </div>
-      <BottomNavBar />
     </section>
   );
 }

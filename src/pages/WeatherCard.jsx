@@ -5,7 +5,6 @@ import { FaWind } from "react-icons/fa";
 import { IoSettings, IoWaterSharp } from "react-icons/io5";
 import { GrPrevious } from "react-icons/gr";
 
-import { BottomNavBar } from "../components/BottomNavBar";
 import { useWeatherContext } from "../context/WeatherContext";
 import { ToggleTheme } from "../components/ToggleTheme";
 import { LanguageSwitcher } from "../components/LanguageSwitcher";
@@ -188,7 +187,6 @@ export function WeatherCard() {
           </div>
         </div>
       </div>
-      <BottomNavBar />
     </section>
   );
 }
