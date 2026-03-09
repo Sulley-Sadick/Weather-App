@@ -2,7 +2,7 @@ import { getJSON } from "./fetchers";
 
 const API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
 
-export const fetchWeatherAndForeCastByCity = async function (city) {
+export const fetchWeatherAndForeCastFromCity = async function (city) {
   const data = await Promise.all([
     getJSON(
       `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${API_KEY}`,
@@ -15,7 +15,10 @@ export const fetchWeatherAndForeCastByCity = async function (city) {
   return data;
 };
 
-export const fetchWeatherAndForeCastByCoordinates = async function (lat, lon) {
+export const fetchWeatherAndForeCastFromCoordinates = async function (
+  lat,
+  lon,
+) {
   const data = await Promise.all([
     getJSON(
       `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}`,
