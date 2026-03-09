@@ -16,7 +16,7 @@
 
 <br/>
 
-![Landing Page](image-1.png)
+![Landing Page](/src/assets/image-1.png)
 
 </div>
 
