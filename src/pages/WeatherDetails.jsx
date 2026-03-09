@@ -1,10 +1,10 @@
 import { GrPrevious } from "react-icons/gr";
 import { useNavigate } from "react-router-dom";
 
-import { ToggleTheme } from "../components/ToggleTheme";
 import { useWeatherContext } from "../context/WeatherContext";
 import { LanguageSwitcher } from "../components/LanguageSwitcher";
 import { useLanguageContext } from "../context/LanguageContext";
+import { ToggleTheme } from "../components/ToggleTheme";
 
 export function WeatherDetails() {
   const navigate = useNavigate();
