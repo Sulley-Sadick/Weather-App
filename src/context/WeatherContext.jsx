@@ -7,9 +7,9 @@ import {
 import {
   useLocalStorageForSelectedWeather,
   useLocalStorageForWeatherHistory,
+  clearHistory,
 } from "../hooks/useLocalStorage";
-import { useLocationContext } from "./LocationContext";
-import { REFRESH_INTERVAL_MS } from "../../config";
+import { REFRESH_INTERVAL_MS } from "../config/appConfig";
 
 // create context
 export const WeatherContext = createContext(null);
@@ -23,9 +23,24 @@ export const WeatherProvider = ({ children }) => {
   );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [city, setCity] = useState("");
+  const [cityName, setCityName] = useState("");
+  const [hasAutoFetched, setHasAutoFetched] = useState(false);
 
-  const { coordinates } = useLocationContext();
+  // clear weatherHistory
+  const clearWeatherHistory = () => {
+    setWeatherHistory([]);
+    clearHistory();
+  };
+
+  const clearError = () => {
+    setError(null);
+  };
+
+  // store weatherHistory into localStorage
+  useLocalStorageForWeatherHistory(weatherHistory);
+
+  // store selectedWeather into localStorage
+  useLocalStorageForSelectedWeather(selectedWeather);
 
   const isDuplicate = (history, weatherObject) => {
     const exist = history.some(
@@ -37,48 +52,29 @@ export const WeatherProvider = ({ children }) => {
     return [...history, weatherObject];
   };
 
-  useEffect(() => {
-    if (!coordinates) return;
+  const fetchWeatherByCoordinates = async (coordinates) => {
+    try {
+      const data = await fetchWeatherAndForeCastByCoordinates(
+        coordinates.latitude,
+        coordinates.longitude,
+      );
 
-    const fetchWeatherFromCoordinates = async () => {
-      try {
-        const data = await fetchWeatherAndForeCastByCoordinates(
-          coordinates.latitude,
-          coordinates.longitude,
-        );
+      const [current, forecast] = data;
 
-        const [current, forecast] = data;
+      const weatherObject = { current, forecast };
 
-        const weatherObject = { current, forecast };
+      setCityName(current.name);
 
-        setWeatherHistory((prevHistory) =>
-          isDuplicate(prevHistory, weatherObject),
-        );
+      setWeatherHistory((prevHistory) =>
+        isDuplicate(prevHistory, weatherObject),
+      );
 
-        setSelectedWeather(weatherObject);
-      } catch (err) {
-        setError(err.message);
-      }
-    };
-
-    fetchWeatherFromCoordinates();
-  }, [coordinates]);
-
-  // store weatherHistory into localStorage
-  useLocalStorageForWeatherHistory(weatherHistory);
-
-  // store selectedWeather into localStorage
-  useLocalStorageForSelectedWeather(selectedWeather);
-
-  // clear weatherHistory
-  const clearWeatherHistory = () => {
-    localStorage.removeItem("weatherHistory");
-    setWeatherHistory([]);
-  };
-
-  const clearSelectedWeather = () => {
-    setSelectedWeather(null);
-    localStorage.removeItem("selectedWeather");
+      setSelectedWeather(weatherObject);
+      return true;
+    } catch (err) {
+      setError(err.message);
+      return false;
+    }
   };
 
   const searchCity = async function (city) {
@@ -90,7 +86,7 @@ export const WeatherProvider = ({ children }) => {
       setError(null);
 
       // update city state
-      setCity(city);
+      setCityName(city);
 
       // fetch data
       const [current, forecast] = await fetchWeatherAndForeCastByCity(city);
@@ -117,14 +113,14 @@ export const WeatherProvider = ({ children }) => {
 
   // run after every 3minutes to update weather data
   useEffect(() => {
-    if (!city) return;
+    if (!cityName) return;
 
     const interval = setInterval(async () => {
-      await searchCity(city);
+      await searchCity(cityName);
     }, REFRESH_INTERVAL_MS);
 
     return () => clearInterval(interval);
-  }, [city]);
+  }, [cityName]);
 
   return (
     <WeatherContext.Provider
@@ -132,11 +128,14 @@ export const WeatherProvider = ({ children }) => {
         weatherHistory,
         selectedWeather,
         clearWeatherHistory,
-        clearSelectedWeather,
         searchCity,
-        city,
+        clearError,
+        cityName,
         loading,
         error,
+        fetchWeatherByCoordinates,
+        setHasAutoFetched,
+        hasAutoFetched,
       }}
     >
       {children}
@@ -148,6 +147,6 @@ export const useWeatherContext = function () {
   const context = useContext(WeatherContext);
 
   if (!context)
-    throw new Error("weatherContext must be within Weather Provider");
+    throw new Error("useWeatherContext must be used within Weather Provider");
   return context;
 };

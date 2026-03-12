@@ -24,7 +24,7 @@ export function WeatherDetails() {
             type="button"
             aria-label="Go back to weather card"
             className="ml-2 flex cursor-pointer text-2xl"
-            onClick={() => navigate("/weathercard")}
+            onClick={() => navigate("/dashboard")}
           >
             <GrPrevious />
           </button>
@@ -66,7 +66,7 @@ export function WeatherDetails() {
           <div className="box-container">
             <p className="mb-2">{t("weather.humidity")}</p>
             <span className="text-2xl font-bold">
-              {selectedWeather.current.main.humidity}%
+              {Math.round(selectedWeather.current.main.humidity)}%
             </span>
           </div>
           <div className="box-container">
@@ -84,7 +84,7 @@ export function WeatherDetails() {
           <div className="box-container">
             <p className="mb-2">{t("similarLabels.chanceOfRain")}</p>
             <span className="text-2xl font-bold">
-              {selectedWeather.forecast.list[0].pop * 100}%
+              {Math.round(selectedWeather.forecast.list[0].pop * 100)}%
             </span>
           </div>
           <div className="box-container">

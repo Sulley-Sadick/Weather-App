@@ -15,3 +15,7 @@ export function useLocalStorageForSelectedWeather(selectedWeather) {
     localStorage.setItem("selectedWeather", JSON.stringify(selectedWeather));
   }, [selectedWeather]);
 }
+
+export function clearHistory() {
+  localStorage.removeItem("weatherHistory");
+}

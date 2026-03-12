@@ -27,11 +27,6 @@ export function useGeolocation() {
       setGeolocationError(null);
     };
 
-    const timer = setTimeout(() => {
-      setGeolocationLoading(false);
-      setGeolocationError("Location unavailable.");
-    }, 300000);
-
     const handleError = (err) => {
       setGeolocationError(err.message);
       setGeolocationLoading(false);
@@ -47,7 +42,6 @@ export function useGeolocation() {
     }
 
     navigator.geolocation.getCurrentPosition(handleSuccess, handleError);
-    return () => clearTimeout(timer);
   }, [retryKey]);
 
   return { geolocationError, geolocationLoading, retry, coordinates };

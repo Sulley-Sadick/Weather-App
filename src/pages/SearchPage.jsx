@@ -1,9 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { GoArrowLeft } from "react-icons/go";
 import { CiSearch } from "react-icons/ci";
-import { FaCloud } from "react-icons/fa";
 
 import { useWeatherContext } from "../context/WeatherContext";
 import { ToggleTheme } from "../components/ToggleTheme";
@@ -12,6 +11,7 @@ import { Spinner } from "../components/Spinner";
 import { useLocationContext } from "../context/LocationContext";
 import { LanguageSwitcher } from "../components/LanguageSwitcher";
 import { useLanguageContext } from "../context/LanguageContext";
+import { suggestedCities } from "../data/suggestedCities";
 
 export function SearchPage() {
   const navigate = useNavigate();
@@ -23,20 +23,16 @@ export function SearchPage() {
   const {
     weatherHistory,
     loading,
+    clearError,
     error,
     cityName,
     clearWeatherHistory,
-    selectedWeather,
     searchCity,
   } = useWeatherContext();
 
   const { geolocationLoading, retry, geolocationError } = useLocationContext();
 
   const [inputValue, setInputValue] = useState("");
-
-  useEffect(() => {
-    if (!geolocationLoading && selectedWeather) navigate("/weathercard");
-  }, [navigate, selectedWeather, geolocationLoading]);
 
   const handleSubmit = async function (e) {
     // prevent browser from automatically submitting the form
@@ -45,17 +41,25 @@ export function SearchPage() {
     // return when inputValue is undefined or null
     if (!inputValue.trim()) return;
 
-    // update value using setInputValue
-    setInputValue(inputValue);
-
     // pass inputValue to searchCity function when being called in WeatherContext.jsx
     const success = await searchCity(inputValue);
 
-    // go to weathercard
-    if (success) navigate("/weathercard");
+    // go to dashboard
+    if (success) navigate("/dashboard");
 
     // clear input field
     setInputValue("");
+  };
+
+  const handleSearchCity = async function (city) {
+    const success = await searchCity(city);
+    if (success) navigate("/dashboard");
+  };
+
+  const handleChange = (e) => {
+    setInputValue(e.target.value);
+
+    clearError();
   };
 
   return (
@@ -70,13 +74,17 @@ export function SearchPage() {
           >
             <GoArrowLeft />
           </button>
-          <div>
+          <div className="flex-center flex-col">
             <ToggleTheme />
             <LanguageSwitcher />
           </div>
         </div>
         <div>
-          <form className="mt-4 mb-6 flex flex-col" onSubmit={handleSubmit}>
+          <form
+            className="mt-4 mb-6 flex flex-col"
+            onSubmit={handleSubmit}
+            disabled={loading}
+          >
             <label htmlFor="search" className="text-4xl font-bold">
               {t("search.title")}
             </label>
@@ -89,12 +97,11 @@ export function SearchPage() {
                   name="search"
                   id="search"
                   value={inputValue}
-                  onChange={(e) => setInputValue(e.target.value)}
+                  onChange={handleChange}
                 />
                 <CiSearch className="absolute top-3 left-5 text-2xl text-gray-500" />
               </div>
-              {geolocationLoading && <Spinner />}
-              {loading && <Spinner />}
+              {(geolocationLoading || loading) && <Spinner />}
             </div>
           </form>
           {error && (
@@ -108,13 +115,14 @@ export function SearchPage() {
           )}
         </div>
         {!weatherHistory.length ? (
-          ""
+          <h3 className="mt-2 font-bold">
+            {t("weatherDataStatus.noSearches")}
+          </h3>
         ) : (
-          <div className="flex-center mt-10 max-sm:justify-between md:justify-normal md:gap-61">
+          <div className="flex-center mt-10 justify-between">
             <h2 className="font-bold text-gray-900 dark:text-gray-100">
               {t("search.recentSearches")}
             </h2>
-
             <button
               type="button"
               aria-label={t("accessibility.clearWeatherHistory")}
@@ -125,78 +133,62 @@ export function SearchPage() {
             </button>
           </div>
         )}
-        <div className="mt-5 flex flex-col max-sm:gap-5 sm:gap-20 md:flex-row md:gap-60">
-          {weatherHistory.slice(0, 2).map((city) => (
-            <div className="flex-center flex-col" key={city.current.id}>
-              <button
-                className="cursor-pointer"
-                role="search"
-                aria-label={t("accessibility.searchWeather")}
-                onClick={async () => {
-                  const success = await searchCity(city.current.name);
-                  if (success) navigate("/weathercard");
-                }}
-              >
-                <div className="flex justify-center">
-                  <img
-                    src={`https://openweathermap.org/img/wn/${city.current.weather[0].icon}@2x.png`}
-                    alt={city.current.weather[0].main}
-                  />
-                </div>
-                <div className="md:self-start">
-                  <h3 className="mt-2 font-medium text-gray-900 dark:text-gray-100">
-                    {t("search.weatherInCity", { city: city.current.name })}
-                  </h3>
-                </div>
-              </button>
+        <div className="mt-6 grid grid-cols-1 gap-7 sm:grid-cols-2 lg:grid-cols-3">
+          {weatherHistory.map((city) => (
+            <div
+              className="flex-center flex-col rounded-md p-3 shadow-lg hover:scale-[1.1] dark:bg-gray-800"
+              key={city.current.id}
+            >
+              <div className="flex gap-4 self-start">
+                <button
+                  className="flex cursor-pointer"
+                  aria-label={t("accessibility.searchWeather")}
+                  onClick={() => handleSearchCity(city.current.name)}
+                >
+                  <div>
+                    <img
+                      src={`https://openweathermap.org/img/wn/${city.current.weather[0].icon}@2x.png`}
+                      alt={city.current.weather[0].main}
+                    />
+                  </div>
+                  <div className="mt-4 text-left *:mb-1 md:self-start">
+                    <h2 className="tex-red-500 font-bold">
+                      {city.current.name}
+                    </h2>
+                    <h3 className="text-gray-400 dark:text-gray-100">
+                      {t("search.weatherInCity", { city: city.current.name })}
+                    </h3>
+                    <div className="flex gap-4 font-medium">
+                      <p>{Math.round(city.current.main.temp)}℃</p>
+                      <p>
+                        {t("weather.humidity")}: {city.current.main.humidity}%
+                      </p>
+                    </div>
+                  </div>
+                </button>
+              </div>
             </div>
           ))}
         </div>
         <div>
-          {!weatherHistory.length ? (
-            ""
-          ) : (
-            <h3 className="mt-10 mb-5 font-bold text-gray-900 dark:text-gray-100">
-              {t("search.suggestedCities")}
-            </h3>
-          )}
-          <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2">
-            {weatherHistory.slice(0, 5).map((city) => (
-              <div key={city.current.id}>
-                <div className="flex gap-4">
+          <h3 className="mt-10 mb-5 text-center font-bold text-gray-900 sm:text-left dark:text-gray-100">
+            {t("search.suggestedCities")}
+          </h3>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
+            {suggestedCities.map((city) => (
+              <div key={city.city} className="text-center sm:text-left">
+                <div>
                   <button
                     role="button"
-                    tabIndex={0}
                     aria-label={t("accessibility.searchWeather")}
-                    className="cursor-pointer"
-                    onClick={async () => {
-                      const success = await searchCity(city.current.name);
-                      if (success) navigate("/weathercard");
-                    }}
+                    className="w-[50%] cursor-pointer"
+                    onClick={() => handleSearchCity(city.city)}
                   >
-                    <div>
-                      <img
-                        src={`https://openweathermap.org/img/wn/${city.current.weather[0].icon}@2x.png`}
-                        alt={city.current.weather[0].main}
-                      />
+                    <div className="flex justify-center gap-4 sm:justify-normal">
+                      <h3 className="sm:text-left">{city.country}</h3>
+                      <h2 className="font-bold">{city.city}</h2>
                     </div>
                   </button>
-                  <div>
-                    <h3 className="text-gray-900 dark:text-gray-100">
-                      {t("location.city", { city: city.current.name })}
-                    </h3>
-                    <p className="text-gray-800 dark:text-gray-100">
-                      {t("search.weatherInCity", { city: city.current.name })}
-                    </p>
-                    <div className="flex-center gap-2">
-                      <FaCloud />
-                      <span> {Math.round(city.current.main.temp)}</span>
-                      <span className="text-gray-400">
-                        {t("weather.humidity")}:
-                        {Math.round(city.current.main.humidity)}%
-                      </span>
-                    </div>
-                  </div>
                 </div>
               </div>
             ))}

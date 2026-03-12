@@ -10,8 +10,9 @@ import { ToggleTheme } from "../components/ToggleTheme";
 import { LanguageSwitcher } from "../components/LanguageSwitcher";
 import { useLanguageContext } from "../context/LanguageContext";
 
-export function WeatherCard() {
-  const { selectedWeather, clearSelectedWeather } = useWeatherContext();
+export function Dashboard() {
+  const { selectedWeather } = useWeatherContext();
+
   const {
     value: { t },
     value: { currentLanguage },
@@ -32,7 +33,6 @@ export function WeatherCard() {
           <button
             className="cursor-pointer text-2xl"
             onClick={() => {
-              clearSelectedWeather();
               navigate("/search");
             }}
             aria-label="Go back to search page"
@@ -63,7 +63,7 @@ export function WeatherCard() {
         </div>
         <div className="w-full rounded-md bg-gray-300 p-4 shadow-md md:w-[80%] dark:bg-gray-800">
           <h3 className="my-4 font-bold max-sm:text-center sm:text-left">
-            {t("weatherCard.titles.todaysWeather")}
+            {t("dashboard.titles.todaysWeather")}
           </h3>
           <div className="flex divide-y divide-gray-900 max-sm:flex-col max-sm:items-center sm:divide-x sm:divide-y-0 md:flex-row md:justify-between dark:divide-gray-700">
             {selectedWeather.forecast.list.slice(0, 3).map((weather) => (
@@ -73,7 +73,7 @@ export function WeatherCard() {
               >
                 <h2 className="text-center font-bold">
                   {weather.dt_txt.split(" ")[1].slice(0, -3)}{" "}
-                  {t("weatherCard.forecast.dayHours")}
+                  {t("dashboard.forecast.dayHours")}
                 </h2>
                 <img
                   className="w-[50%]"
@@ -89,7 +89,7 @@ export function WeatherCard() {
         </div>
         <div className="mt-20 w-full rounded-lg bg-gray-300 p-6 shadow-md md:w-[80%] dark:bg-gray-800">
           <h3 className="my-2 font-bold max-sm:text-center sm:text-left">
-            {t("weatherCard.titles.weeklyOutlook")}
+            {t("dashboard.titles.weeklyOutlook")}
           </h3>
           <div className="w-full divide-y">
             {weeklyData.map((weather, index) => (
@@ -97,7 +97,7 @@ export function WeatherCard() {
                 <div className="flex-center justify-between max-sm:flex-col md:flex-row">
                   <p className="font-medium">
                     {index === 0
-                      ? t("weatherCard.forecast.today")
+                      ? t("dashboard.forecast.today")
                       : new Date(weather.dt_txt).toLocaleString(
                           currentLanguage,
                           {
@@ -126,14 +126,14 @@ export function WeatherCard() {
         <div className="mt-20 w-full rounded-md bg-gray-300 shadow-md max-sm:p-4 sm:p-6 md:w-[80%] dark:bg-gray-800">
           <div className="flex items-center justify-between">
             <h3 className="font-bold">
-              {t("weatherCard.titles.weatherDetails")}
+              {t("dashboard.titles.weatherDetails")}
             </h3>
             <button
               type="button"
               className="cursor-pointer rounded-full bg-blue-500 py-2 font-bold text-white transition-all duration-400 hover:bg-blue-400 max-sm:px-2 sm:px-4"
-              onClick={() => navigate("/details")}
+              onClick={() => navigate("/weatherDetails")}
             >
-              {t("weatherCard.buttons.moreInfo")}
+              {t("dashboard.buttons.moreInfo")}
             </button>
           </div>
           <div className="flex-center my-5 max-sm:flex-col sm:flex-row">
@@ -150,7 +150,7 @@ export function WeatherCard() {
               <div className="mt-5 flex gap-2">
                 <FaWind className="text-3xl" />
                 <p>
-                  {t("weatherCard.labels.breeze")} <br />
+                  {t("dashboard.labels.breeze")} <br />
                   <span className="font-bold">
                     {selectedWeather.current.wind.speed} m/s
                   </span>
@@ -161,7 +161,7 @@ export function WeatherCard() {
               <div className="mb-5 flex gap-2">
                 <IoWaterSharp className="text-3xl" />
                 <p>
-                  {t("weatherCard.labels.precipitation")}
+                  {t("dashboard.labels.precipitation")}
                   <br />
                   <span className="font-bold">
                     {Math.round(selectedWeather.forecast.list[0].pop * 100)} %
@@ -171,7 +171,7 @@ export function WeatherCard() {
               <div className="-ml-3 flex gap-2">
                 <IoSettings className="text-3xl" />
                 <p>
-                  {t("weatherCard.labels.uvLevel")}
+                  {t("dashboard.labels.uvLevel")}
                   <br />
                   <span className="font-bold">N/A</span>
                 </p>

@@ -11,7 +11,7 @@ export const de = {
     suggestedCities: "Empfohlene Städte",
     weatherInCity: "Wetter in {{city}}",
   },
-  weatherCard: {
+  dashboard: {
     titles: {
       weeklyOutlook: "Wöchentliche Übersicht",
       weatherDetails: "Wetterdetails",
@@ -45,6 +45,7 @@ export const de = {
   },
   weatherDataStatus: {
     dataUnavailable: "Daten nicht verfügbar. Bitte nach einer Stadt suchen",
+    noSearches: "Noch keine Suchen",
   },
 
   location: {

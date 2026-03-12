@@ -1,32 +1,55 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 import { SearchPage } from "./pages/SearchPage";
 import { LandingPage } from "./pages/LandingPage";
-import { WeatherProvider } from "./context/WeatherContext";
+import { useWeatherContext } from "./context/WeatherContext";
 import { WeatherDetails } from "./pages/WeatherDetails";
-import { WeatherCard } from "./pages/WeatherCard";
-import { LocationProvider } from "./context/LocationContext";
-import { ThemeProvider } from "./context/ThemeContext";
-import { LanguageProvider } from "./context/LanguageContext";
+import { Dashboard } from "./pages/Dashboard";
+import { useLocationContext } from "./context/LocationContext";
+
+import AppProviders from "./context/AppProviders";
+
+function AppRoutes() {
+  const { coordinates, setGeolocationError } = useLocationContext();
+  const { hasAutoFetched, setHasAutoFetched, fetchWeatherByCoordinates } =
+    useWeatherContext();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!coordinates || hasAutoFetched) return;
+
+    const load = async () => {
+      try {
+        setHasAutoFetched(true);
+        const success = fetchWeatherByCoordinates(coordinates);
+
+        if (success) navigate("/dashboard", { replace: true });
+      } catch (error) {
+        setGeolocationError(error.message);
+      }
+    };
+
+    load();
+  }, [coordinates, hasAutoFetched]);
+
+  return (
+    <Routes>
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/search" element={<SearchPage />} />
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/weatherDetails" element={<WeatherDetails />} />
+      <Route path="*" element={<LandingPage />} />
+    </Routes>
+  );
+}
 
 function App() {
   return (
     <BrowserRouter>
-      <LocationProvider>
-        <LanguageProvider>
-          <WeatherProvider>
-            <ThemeProvider>
-              <Routes>
-                <Route path="/" element={<LandingPage />} />
-                <Route path="/search" element={<SearchPage />} />
-                <Route path="/weathercard" element={<WeatherCard />} />
-                <Route path="/details" element={<WeatherDetails />} />
-                <Route path="*" element={<LandingPage />} />
-              </Routes>
-            </ThemeProvider>
-          </WeatherProvider>
-        </LanguageProvider>
-      </LocationProvider>
+      <AppProviders>
+        <AppRoutes />
+      </AppProviders>
     </BrowserRouter>
   );
 }
