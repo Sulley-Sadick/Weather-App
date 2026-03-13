@@ -1,8 +1,10 @@
-import { useLanguageContext } from "../context/LanguageContext";
-import { useWeatherContext } from "../context/WeatherContext";
-import { suggestedCities } from "../data/suggestedCities";
+import { useNavigate } from "react-router-dom";
+import { useLanguageContext } from "../../context/LanguageContext";
+import { useWeatherContext } from "../../context/WeatherContext";
+import { suggestedCities } from "../../data/suggestedCities";
 
 export function SuggestedCities() {
+  const navigate = useNavigate();
   const { searchCity } = useWeatherContext();
   const {
     value: { t },
@@ -16,10 +18,13 @@ export function SuggestedCities() {
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
         {suggestedCities.map((city) => (
           <button
-            role="button"
+            key={city.city}
             aria-label={t("accessibility.searchWeather")}
             className="w-full cursor-pointer transition-transform duration-300 hover:scale-[1.05]"
-            onClick={() => searchCity(city.city)}
+            onClick={async () => {
+              const success = searchCity(city.city);
+              if (success) navigate("/dashboard");
+            }}
           >
             <div
               key={city.city}

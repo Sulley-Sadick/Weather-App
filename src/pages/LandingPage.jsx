@@ -2,10 +2,10 @@ import { useNavigate } from "react-router-dom";
 import { GoArrowRight } from "react-icons/go";
 import { LuCloudSun } from "react-icons/lu";
 
-import { ToggleTheme } from "../components/ToggleTheme";
-import { LanguageSwitcher } from "../components/LanguageSwitcher";
+import { ToggleTheme } from "../components/controls/ToggleTheme";
+import { LanguageSwitcher } from "../components/controls/LanguageSwitcher";
 import { useLanguageContext } from "../context/LanguageContext";
-import { PageTransition } from "../components/PageTransition";
+import { PageTransition } from "../components/animations/PageTransition";
 
 export function LandingPage() {
   const navigate = useNavigate();

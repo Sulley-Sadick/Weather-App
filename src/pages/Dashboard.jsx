@@ -2,13 +2,13 @@ import { useNavigate } from "react-router-dom";
 import { GrPrevious } from "react-icons/gr";
 
 import { useWeatherContext } from "../context/WeatherContext";
-import { ToggleTheme } from "../components/ToggleTheme";
-import { LanguageSwitcher } from "../components/LanguageSwitcher";
 import { useLanguageContext } from "../context/LanguageContext";
-import { HourlyForecast } from "../components/HourlyForecast";
-import { WeeklyForecast } from "../components/WeeklyForecast";
-import { WeatherHighlight } from "../components/WeatherHighlight";
-import { PageTransition } from "../components/PageTransition";
+import { ToggleTheme } from "../components/controls/ToggleTheme";
+import { LanguageSwitcher } from "../components/controls/LanguageSwitcher";
+import { HourlyForecast } from "../components/weather/HourlyForecast";
+import { WeeklyForecast } from "../components/weather/WeeklyForecast";
+import { WeatherHighlight } from "../components/weather/WeatherHighlight";
+import { PageTransition } from "../components/animations/PageTransition";
 
 export function Dashboard() {
   const { selectedWeather } = useWeatherContext();

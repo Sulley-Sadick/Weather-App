@@ -5,14 +5,14 @@ export const ThemeContext = createContext(null);
 
 export const ThemeProvider = function ({ children }) {
   const [theme, setTheme] = useState(
-    () => JSON.parse(localStorage.getItem("theme")) || false,
+    () => JSON.parse(localStorage.getItem("theme")) || "white",
   );
 
   // store theme in the localStorage
   useToggleTheme(theme);
 
   // change theme
-  const changeTheme = () => setTheme(!theme);
+  const changeTheme = () => setTheme(theme === "white" ? "dark" : "white");
 
   return (
     <ThemeContext.Provider value={{ theme, changeTheme }}>

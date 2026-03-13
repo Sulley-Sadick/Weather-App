@@ -1,5 +1,5 @@
-import { useLanguageContext } from "../context/LanguageContext";
-import { useWeatherContext } from "../context/WeatherContext";
+import { useLanguageContext } from "../../context/LanguageContext";
+import { useWeatherContext } from "../../context/WeatherContext";
 
 export function WeeklyForecast() {
   const { selectedWeather } = useWeatherContext();

@@ -2,10 +2,10 @@ import { GrPrevious } from "react-icons/gr";
 import { useNavigate } from "react-router-dom";
 
 import { useWeatherContext } from "../context/WeatherContext";
-import { LanguageSwitcher } from "../components/LanguageSwitcher";
 import { useLanguageContext } from "../context/LanguageContext";
-import { ToggleTheme } from "../components/ToggleTheme";
-import { PageTransition } from "../components/PageTransition";
+import { LanguageSwitcher } from "../components/controls/LanguageSwitcher";
+import { ToggleTheme } from "../components/controls/ToggleTheme";
+import { PageTransition } from "../components/animations/PageTransition";
 
 export function WeatherDetails() {
   const navigate = useNavigate();

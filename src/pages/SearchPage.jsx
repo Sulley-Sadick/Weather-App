@@ -1,12 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import { GoArrowLeft } from "react-icons/go";
 
-import { ToggleTheme } from "../components/ToggleTheme";
-import { LanguageSwitcher } from "../components/LanguageSwitcher";
-import { SearchInput } from "../components/SearchInput";
-import { RecentSearches } from "../components/RecentSearches";
-import { SuggestedCities } from "../components/SuggestedCities";
-import { PageTransition } from "../components/PageTransition";
+import { ToggleTheme } from "../components/controls/ToggleTheme";
+import { LanguageSwitcher } from "../components/controls/LanguageSwitcher";
+import { SearchInput } from "../components/search/SearchInput";
+import { RecentSearches } from "../components/search/RecentSearches";
+import { SuggestedCities } from "../components/search/SuggestedCities";
+import { PageTransition } from "../components/animations/PageTransition";
 
 export function SearchPage() {
   const navigate = useNavigate();
