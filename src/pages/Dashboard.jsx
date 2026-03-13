@@ -23,11 +23,11 @@ export function Dashboard() {
 
   return (
     <PageTransition>
-      <section className="min-h-screen w-full dark:bg-gray-900 dark:text-gray-100">
+      <section className="min-h-screen w-full bg-cover bg-no-repeat dark:bg-gray-900 dark:text-gray-100">
         <div className="flex-center w-full flex-col p-5">
           <div className="flex-center mb-10 w-full justify-between">
             <button
-              className="cursor-pointer text-2xl"
+              className="ml-3 cursor-pointer text-2xl"
               onClick={() => {
                 navigate("/search");
               }}

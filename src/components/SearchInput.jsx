@@ -51,9 +51,9 @@ export function SearchInput() {
         {t("search.title")}
       </label>
       <div className="flex-center gap-20">
-        <div className="relative my-4 w-full rounded-full p-2 shadow-[5px_5px_20px_rgba(0,0,0,0.2)] sm:max-w-[50%]">
+        <div className="relative my-4 w-full rounded-full p-2 shadow-[5px_5px_20px_rgba(0,0,0,0.2)] sm:max-w-[50%] dark:animate-pulse dark:shadow-gray-600">
           <input
-            className="flex-center w-full rounded-md pt-0.5 pr-2 pl-10 font-medium text-gray-800 shadow-2xl outline-none focus:rounded-md dark:bg-gray-800 dark:text-gray-100"
+            className="flex-center w-full rounded-md pt-0.5 pr-2 pl-10 font-medium text-gray-800 shadow-2xl outline-none focus:rounded-md dark:text-gray-100"
             type="search"
             placeholder={t("search.placeholder")}
             name="search"
