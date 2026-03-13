@@ -10,7 +10,7 @@ export function ToggleTheme() {
   return (
     <div className="flex-center self-end">
       <p className="font-bold text-gray-800 dark:text-gray-100">
-        {!theme
+        {theme === "dark"
           ? t("buttons.toggleTheme.dark")
           : t("buttons.toggleTheme.white")}{" "}
         {t("buttons.toggleTheme.theme")}
