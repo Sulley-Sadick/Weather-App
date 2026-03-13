@@ -2,10 +2,10 @@ import { useNavigate } from "react-router-dom";
 import { GoArrowRight } from "react-icons/go";
 import { LuCloudSun } from "react-icons/lu";
 
-import { ToggleTheme } from "../components/controls/ToggleTheme";
-import { LanguageSwitcher } from "../components/controls/LanguageSwitcher";
-import { PageTransition } from "../components/animations/PageTransition";
+import { ToggleTheme } from "../components/ToggleTheme";
+import { LanguageSwitcher } from "../components/LanguageSwitcher";
 import { useLanguageContext } from "../context/LanguageContext";
+import { PageTransition } from "../components/PageTransition";
 
 export function LandingPage() {
   const navigate = useNavigate();
@@ -15,8 +15,8 @@ export function LandingPage() {
 
   return (
     <PageTransition>
-      <section className="min-h-screen w-full bg-white transition-all duration-300 ease-in-out dark:bg-gray-900 dark:text-gray-800">
-        <div className="flex-center flex-col py-5">
+      <section className="min-h-screen w-full bg-white dark:bg-gray-900 dark:text-gray-800">
+        <div className="flex-center flex-col self-end py-5">
           <div className="flex-center flex-col self-end">
             <ToggleTheme />
             <LanguageSwitcher />

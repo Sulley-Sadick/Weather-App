@@ -3,8 +3,8 @@ import { PiThermometerSimpleBold } from "react-icons/pi";
 import { FaWind } from "react-icons/fa";
 import { IoWaterSharp, IoSettings } from "react-icons/io5";
 
-import { useWeatherContext } from "../../context/WeatherContext";
-import { useLanguageContext } from "../../context/LanguageContext";
+import { useWeatherContext } from "../context/WeatherContext";
+import { useLanguageContext } from "../context/LanguageContext";
 
 export function WeatherHighlight() {
   const navigate = useNavigate();
