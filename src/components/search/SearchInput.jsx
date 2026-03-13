@@ -2,11 +2,11 @@ import { useState } from "react";
 import { CiSearch } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
 
-import { useLocationContext } from "../context/LocationContext";
-import { useLanguageContext } from "../context/LanguageContext";
-import { useWeatherContext } from "../context/WeatherContext";
-import { Spinner } from "./Spinner";
-import { ErrorMessage } from "./ErrorMessage";
+import { useLocationContext } from "../../context/LocationContext";
+import { useLanguageContext } from "../../context/LanguageContext";
+import { useWeatherContext } from "../../context/WeatherContext";
+import { Spinner } from "../ui/Spinner";
+import { ErrorMessage } from "../ui/ErrorMessage";
 
 export function SearchInput() {
   const [inputValue, setInputValue] = useState("");

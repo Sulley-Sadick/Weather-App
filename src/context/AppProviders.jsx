@@ -3,7 +3,7 @@ import { LanguageProvider } from "./LanguageContext";
 import { LocationProvider } from "./LocationContext";
 import { WeatherProvider } from "./WeatherContext";
 
-function AppProviders({ children }) {
+export function AppProviders({ children }) {
   return (
     <LocationProvider>
       <LanguageProvider>
@@ -14,5 +14,3 @@ function AppProviders({ children }) {
     </LocationProvider>
   );
 }
-
-export default AppProviders;

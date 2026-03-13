@@ -2,13 +2,13 @@ import { useNavigate } from "react-router-dom";
 import { GrPrevious } from "react-icons/gr";
 
 import { useWeatherContext } from "../context/WeatherContext";
-import { ToggleTheme } from "../components/ToggleTheme";
-import { LanguageSwitcher } from "../components/LanguageSwitcher";
 import { useLanguageContext } from "../context/LanguageContext";
-import { HourlyForecast } from "../components/HourlyForecast";
-import { WeeklyForecast } from "../components/WeeklyForecast";
-import { WeatherHighlight } from "../components/WeatherHighlight";
-import { PageTransition } from "../components/PageTransition";
+import { ToggleTheme } from "../components/controls/ToggleTheme";
+import { LanguageSwitcher } from "../components/controls/LanguageSwitcher";
+import { HourlyForecast } from "../components/weather/HourlyForecast";
+import { WeeklyForecast } from "../components/weather/WeeklyForecast";
+import { WeatherHighlight } from "../components/weather/WeatherHighlight";
+import { PageTransition } from "../components/animations/PageTransition";
 
 export function Dashboard() {
   const { selectedWeather } = useWeatherContext();
@@ -23,7 +23,7 @@ export function Dashboard() {
 
   return (
     <PageTransition>
-      <section className="min-h-screen w-full bg-cover bg-no-repeat dark:bg-gray-900 dark:text-gray-100">
+      <section className="min-h-screen w-full transition-all duration-300 ease-in-out dark:bg-gray-900 dark:text-gray-100">
         <div className="flex-center w-full flex-col p-5">
           <div className="flex-center mb-10 w-full justify-between">
             <button

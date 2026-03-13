@@ -14,7 +14,7 @@ import { useWeatherContext } from "./context/WeatherContext";
 import { WeatherDetails } from "./pages/WeatherDetails";
 import { Dashboard } from "./pages/Dashboard";
 import { useLocationContext } from "./context/LocationContext";
-import AppProviders from "./context/AppProviders";
+import { AppProviders } from "./context/AppProviders";
 
 function AppRoutes() {
   const { coordinates, setGeolocationError } = useLocationContext();

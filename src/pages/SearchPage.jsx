@@ -1,19 +1,19 @@
 import { useNavigate } from "react-router-dom";
 import { GoArrowLeft } from "react-icons/go";
 
-import { ToggleTheme } from "../components/ToggleTheme";
-import { LanguageSwitcher } from "../components/LanguageSwitcher";
-import { SearchInput } from "../components/SearchInput";
-import { RecentSearches } from "../components/RecentSearches";
-import { SuggestedCities } from "../components/SuggestedCities";
-import { PageTransition } from "../components/PageTransition";
+import { ToggleTheme } from "../components/controls/ToggleTheme";
+import { LanguageSwitcher } from "../components/controls/LanguageSwitcher";
+import { SearchInput } from "../components/search/SearchInput";
+import { RecentSearches } from "../components/search/RecentSearches";
+import { SuggestedCities } from "../components/search/SuggestedCities";
+import { PageTransition } from "../components/animations/PageTransition";
 
 export function SearchPage() {
   const navigate = useNavigate();
 
   return (
     <PageTransition>
-      <section className="min-h-screen w-full bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-100">
+      <section className="min-h-screen w-full bg-gray-50 text-gray-800 transition-all duration-300 ease-in-out dark:bg-gray-900 dark:text-gray-100">
         <div className="p-6">
           <div className="flex-center justify-between">
             <button
@@ -24,7 +24,7 @@ export function SearchPage() {
             >
               <GoArrowLeft />
             </button>
-            <div className="flex-center flex-col">
+            <div className="flex-center -mr-4 flex-col">
               <ToggleTheme />
               <LanguageSwitcher />
             </div>

@@ -1,11 +1,11 @@
 import { GrPrevious } from "react-icons/gr";
 import { useNavigate } from "react-router-dom";
 
+import { LanguageSwitcher } from "../components/controls/LanguageSwitcher";
+import { ToggleTheme } from "../components/controls/ToggleTheme";
+import { PageTransition } from "../components/animations/PageTransition";
 import { useWeatherContext } from "../context/WeatherContext";
-import { LanguageSwitcher } from "../components/LanguageSwitcher";
 import { useLanguageContext } from "../context/LanguageContext";
-import { ToggleTheme } from "../components/ToggleTheme";
-import { PageTransition } from "../components/PageTransition";
 
 export function WeatherDetails() {
   const navigate = useNavigate();
@@ -19,7 +19,7 @@ export function WeatherDetails() {
 
   return (
     <PageTransition>
-      <section className="min-h-screen w-full dark:bg-gray-900 dark:text-gray-100">
+      <section className="min-h-screen w-full transition-all duration-300 ease-in-out dark:bg-gray-900 dark:text-gray-100">
         <div className="flex-center w-full flex-col justify-center p-6">
           <div className="flex-center w-full justify-between">
             <button

@@ -74,9 +74,8 @@ export const de = {
 
   buttons: {
     toggleTheme: {
-      dark: "dunkel",
-      white: "hell",
-      view: "Ansicht",
+      dark: "Dunkel",
+      white: "Hell",
       theme: "Thema",
     },
     selectLanguage: "Sprache auswählen",
