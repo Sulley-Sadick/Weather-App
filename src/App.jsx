@@ -1,4 +1,11 @@
-import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  useNavigate,
+  useLocation,
+} from "react-router-dom";
+import { AnimatePresence } from "motion/react";
 import { useEffect } from "react";
 
 import { SearchPage } from "./pages/SearchPage";
@@ -7,14 +14,15 @@ import { useWeatherContext } from "./context/WeatherContext";
 import { WeatherDetails } from "./pages/WeatherDetails";
 import { Dashboard } from "./pages/Dashboard";
 import { useLocationContext } from "./context/LocationContext";
-
 import AppProviders from "./context/AppProviders";
 
 function AppRoutes() {
   const { coordinates, setGeolocationError } = useLocationContext();
   const { hasAutoFetched, setHasAutoFetched, fetchWeatherByCoordinates } =
     useWeatherContext();
+
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     if (!coordinates || hasAutoFetched) return;
@@ -34,13 +42,15 @@ function AppRoutes() {
   }, [coordinates, hasAutoFetched]);
 
   return (
-    <Routes>
-      <Route path="/" element={<LandingPage />} />
-      <Route path="/search" element={<SearchPage />} />
-      <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/weatherDetails" element={<WeatherDetails />} />
-      <Route path="*" element={<LandingPage />} />
-    </Routes>
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/search" element={<SearchPage />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/weatherDetails" element={<WeatherDetails />} />
+        <Route path="*" element={<LandingPage />} />
+      </Routes>
+    </AnimatePresence>
   );
 }
 

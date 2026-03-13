@@ -33,11 +33,8 @@ export function RecentSearches() {
       )}
       <div className="mt-6 grid grid-cols-1 gap-7 sm:grid-cols-2 lg:grid-cols-3">
         {weatherHistory.map((city) => (
-          <div
-            className="flex-center flex-col rounded-md p-3 shadow-lg hover:scale-[1.1] dark:bg-gray-800"
-            key={city.current.id}
-          >
-            <div className="flex gap-4 self-start">
+          <div className="flex-center flex-col" key={city.current.id}>
+            <div className="flex gap-4 self-start rounded-md bg-white p-4 shadow-lg hover:scale-[1.1] dark:bg-gray-800">
               <button
                 className="flex cursor-pointer"
                 aria-label={t("accessibility.searchWeather")}

@@ -1,13 +1,5 @@
 @import "tailwindcss";
 
-body {
-  background-image: url("../src/assets/weatherbg.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
-  width: 100%;
-  min-height: 100vh;
-}
-
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
