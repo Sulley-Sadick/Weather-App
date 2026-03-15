@@ -57,7 +57,9 @@ export function WeatherDetails() {
           <div className="mt-15 grid grid-cols-2 gap-4">
             <div className="box-container">
               <p className="mb-2">{t("weatherDetails.labels.uvIndex")}</p>
-              <span className="text-2xl font-bold">N/A</span>
+              <span className="text-2xl font-bold">
+                {Math.round(selectedWeather.current.visibility / 1000)}k/m
+              </span>{" "}
             </div>
             <div className="box-container">
               <p className="mb-2">{t("weatherDetails.labels.windSpeed")}</p>

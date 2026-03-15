@@ -12,7 +12,7 @@ export function WeeklyForecast() {
     numDays.dt_txt.includes("12:00"),
   );
   return (
-    <div className="mt-20 w-full rounded-lg bg-gray-300 p-6 shadow-md md:w-[80%] dark:bg-gray-800">
+    <div className="w-full rounded-lg bg-gray-300 p-2 px-6 shadow-md dark:bg-gray-800">
       <h3 className="my-2 font-bold max-sm:text-center sm:text-left">
         {t("dashboard.titles.weeklyOutlook")}
       </h3>

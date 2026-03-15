@@ -14,8 +14,8 @@ export function WeatherHighlight() {
   } = useLanguageContext();
 
   return (
-    <div className="mt-20 w-full rounded-md bg-gray-300 shadow-md max-sm:p-4 sm:p-6 md:w-[80%] dark:bg-gray-800">
-      <div className="flex items-center justify-between">
+    <div className="w-full rounded-md bg-gray-300 p-4 shadow-md dark:bg-gray-800">
+      <div className="mb-6 flex items-center justify-between">
         <h3 className="font-bold">{t("dashboard.titles.weatherDetails")}</h3>
         <button
           type="button"
@@ -25,46 +25,44 @@ export function WeatherHighlight() {
           {t("dashboard.buttons.moreInfo")}
         </button>
       </div>
-      <div className="flex-center my-5 max-sm:flex-col sm:flex-row">
-        <div className="flex-center w-full flex-col">
-          <div className="mt-4 flex">
-            <PiThermometerSimpleBold className="text-3xl" />
-            <p>
-              {t("similarLabels.feelsLike")} <br />
-              <span className="font-bold">
-                {Math.round(selectedWeather.current.main.feels_like)}℃
-              </span>
-            </p>
-          </div>
-          <div className="mt-5 flex gap-2">
-            <FaWind className="text-3xl" />
-            <p>
-              {t("dashboard.labels.breeze")} <br />
-              <span className="font-bold">
-                {selectedWeather.current.wind.speed} m/s
-              </span>
-            </p>
-          </div>
+      <div className="mb-5 grid grid-cols-2 gap-4 md:grid-cols-4">
+        <div className="mt-4 flex sm:mt-0">
+          <PiThermometerSimpleBold className="text-3xl" />
+          <p>
+            {t("similarLabels.feelsLike")} <br />
+            <span className="font-bold">
+              {Math.round(selectedWeather.current.main.feels_like)}℃
+            </span>
+          </p>
         </div>
-        <div className="flex-center mt-5 w-full flex-col">
-          <div className="mb-5 flex gap-2">
-            <IoWaterSharp className="text-3xl" />
-            <p>
-              {t("dashboard.labels.precipitation")}
-              <br />
-              <span className="font-bold">
-                {Math.round(selectedWeather.forecast.list[0].pop * 100)} %
-              </span>
-            </p>
-          </div>
-          <div className="-ml-3 flex gap-2">
-            <IoSettings className="text-3xl" />
-            <p>
-              {t("dashboard.labels.uvLevel")}
-              <br />
-              <span className="font-bold">N/A</span>
-            </p>
-          </div>
+        <div className="mt-5 mb-5 flex gap-2 sm:mt-0 sm:mb-0">
+          <FaWind className="text-3xl" />
+          <p>
+            {t("dashboard.labels.breeze")} <br />
+            <span className="font-bold">
+              {selectedWeather.current.wind.speed} m/s
+            </span>
+          </p>
+        </div>
+        <div className="mb-5 flex gap-2 sm:mb-0">
+          <IoWaterSharp className="text-3xl" />
+          <p>
+            {t("dashboard.labels.precipitation")}
+            <br />
+            <span className="font-bold">
+              {Math.round(selectedWeather.forecast.list[0].pop * 100)} %
+            </span>
+          </p>
+        </div>
+        <div className="-ml-3 flex gap-2">
+          <IoSettings className="text-3xl" />
+          <p>
+            {t("dashboard.labels.uvLevel")}
+            <br />
+            <span className="font-bold">
+              {Math.round(selectedWeather.current.visibility / 1000)} k/m
+            </span>
+          </p>
         </div>
       </div>
     </div>
